@@ -762,13 +762,12 @@ footer{background:var(--deep);padding:40px var(--gap);border-top:1px solid rgba(
   <div class="wrap">
     <div class="sec-header">
       <h2 class="sec-title">Professional Experience</h2>
-      <span class="sec-count">07 roles</span>
     </div>
 
     <div class="exp-item">
       <div class="exp-left">
         <div class="exp-period">Jul 2023 – Oct 2025</div>
-        <div class="exp-org">ISTinaD Research Centre<br/>Remote · Full-time</div>
+        <div class="exp-org">ISTinaD Research Centre<br/>Remote · Part-time</div>
       </div>
       <div class="exp-right">
         <div class="exp-role">Research Assistant</div>
@@ -941,7 +940,6 @@ footer{background:var(--deep);padding:40px var(--gap);border-top:1px solid rgba(
   <div class="wrap">
     <div class="sec-header">
       <h2 class="sec-title">Skills & Tools</h2>
-      <span class="sec-count">3 domains</span>
     </div>
     <div class="skills-grid">
       <div class="skill-cell">
@@ -992,7 +990,6 @@ footer{background:var(--deep);padding:40px var(--gap);border-top:1px solid rgba(
   <div class="wrap">
     <div class="sec-header">
       <h2 class="sec-title">Education</h2>
-      <span class="sec-count">2 institutions</span>
     </div>
     <div class="edu-grid">
       <div class="edu-card featured">
@@ -1017,7 +1014,6 @@ footer{background:var(--deep);padding:40px var(--gap);border-top:1px solid rgba(
   <div class="wrap">
     <div class="sec-header">
       <h2 class="sec-title">Leadership & Activities</h2>
-      <span class="sec-count">5 roles</span>
     </div>
     <div class="lead-list">
 
@@ -1098,7 +1094,7 @@ footer{background:var(--deep);padding:40px var(--gap);border-top:1px solid rgba(
         </div>
       </div>
 
-      <form class="contact-form" onsubmit="return false;">
+     <!-- <form class="contact-form" onsubmit="return false;">
         <div class="f-row">
           <div class="f-group">
             <label>Name</label>
@@ -1125,9 +1121,54 @@ footer{background:var(--deep);padding:40px var(--gap);border-top:1px solid rgba(
           <textarea placeholder="Describe your project or inquiry…"></textarea>
         </div>
         <button type="submit" class="btn-send magnetic" data-cursor="SEND">Send Message</button>
-      </form>
+      </form>-->
+      <!-- Replace onsubmit="return false;" with your JS function -->
+<form class="contact-form" onsubmit="handleSubmit(event)">
+  <div class="f-row">
+    <div class="f-group">
+      <label for="name">Name</label>
+      <input type="text" id="name" name="name" placeholder="Your name" required />
+    </div>
+    <div class="f-group">
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" placeholder="your@email.com" required />
     </div>
   </div>
+
+  <div class="f-group">
+    <label for="subject">Subject</label>
+    <select id="subject" name="subject" required>
+      <option value="">Select a topic…</option>
+      <option value="Research Collaboration">Research Collaboration</option>
+      <option value="Data Analysis Project">Data Analysis Project</option>
+      <option value="Policy Consulting">Policy Consulting</option>
+      <option value="Speaking Engagement">Speaking Engagement</option>
+      <option value="Other">Other</option>
+    </select>
+  </div>
+
+  <div class="f-group">
+    <label for="message">Message</label>
+    <textarea id="message" name="message" placeholder="Describe your project or inquiry…" required></textarea>
+  </div>
+
+  <button type="submit" class="btn-send magnetic" data-cursor="SEND">Send Message</button>
+</form>
+
+<script>
+  function handleSubmit(event) {
+    event.preventDefault(); // Prevents page reload
+    
+    // Example: Reading form data
+    const formData = new FormData(event.target);
+    const data = Object.fromEntries(formData.entries());
+    
+    console.log("Form Submitted:", data);
+    // Add your API fetch request here
+  }
+</script>
+    </div>
+  </div> */ 
 </section>
 
 <!-- FOOTER -->
