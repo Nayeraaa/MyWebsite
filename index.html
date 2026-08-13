@@ -59,12 +59,177 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;height:60px;display:flex;ali
 
 .hero-name{font-family:var(--display);font-size:clamp(52px,8vw,96px);font-weight:700;line-height:0.95;letter-spacing:-2px;color:var(--sand);margin-bottom:8px}
 .hero-name .first{display:block}
-.hero-name .last{display:block;color:transparent;-webkit-text-stroke:1.5px var(--sand)}
 
-.terminal-line{font-family:var(--mono);font-size:clamp(14px,2vw,18px);color:var(--teal);margin:32px 0 40px;min-height:28px}
-.terminal-line::before{content:'> ';color:var(--muted)}
+/* First name: animated gradient sweep + per-letter pop-in */
+.hero-name .first{
+  background:linear-gradient(100deg,var(--teal) 0%,var(--sand) 35%,var(--amber) 60%,var(--teal) 100%);
+  background-size:300% 100%;
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;
+  animation:name-gradient 6s ease-in-out infinite;
+}
+@keyframes name-gradient{
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
+}
+.hero-name .letter{
+  display:inline-block;
+  opacity:0;
+  transform:translateY(0.4em) scale(0.6) rotate(-6deg);
+  animation:letter-pop .7s var(--ease) forwards;
+}
+@keyframes letter-pop{
+  0%{opacity:0;transform:translateY(0.4em) scale(0.6) rotate(-6deg)}
+  60%{opacity:1;transform:translateY(-0.06em) scale(1.08) rotate(1deg)}
+  100%{opacity:1;transform:translateY(0) scale(1) rotate(0)}
+}
+
+/* Last name: outline that slowly glows and shifts hue */
+.hero-name .last{
+  display:block;
+  color:transparent;
+  -webkit-text-stroke:1.5px var(--sand);
+  position:relative;
+  animation:last-glow 4s ease-in-out infinite;
+}
+@keyframes last-glow{
+  0%,100%{-webkit-text-stroke-color:var(--sand);filter:drop-shadow(0 0 0px rgba(78,205,196,0))}
+  50%{-webkit-text-stroke-color:var(--teal);filter:drop-shadow(0 0 14px rgba(78,205,196,0.45))}
+}
+
+.terminal-line{font-family:var(--mono);font-size:clamp(14px,2vw,18px);color:var(--teal);margin:32px 0 40px;min-height:28px;position:relative;display:flex;align-items:center;gap:14px}
+.terminal-line .terminal-text::before{content:'> ';color:var(--muted)}
 .cursor{display:inline-block;width:10px;height:1.2em;background:var(--teal);margin-left:3px;vertical-align:text-bottom;animation:blink .8s step-end infinite}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+
+/* ── SIDEKICK CHARACTER ──────────────────── */
+.sidekick{
+  position:relative;
+  width:46px;height:58px;
+  flex-shrink:0;
+  transform-origin:bottom center;
+  transition:transform .18s var(--ease);
+}
+.sidekick .sk-body{
+  position:absolute;left:50%;bottom:10px;
+  width:22px;height:20px;
+  margin-left:-11px;
+  background:var(--surface);
+  border:1.5px solid var(--teal);
+  border-radius:6px;
+  transition:transform .3s var(--ease);
+}
+.sidekick .sk-head{
+  position:absolute;left:50%;bottom:26px;
+  width:20px;height:18px;
+  margin-left:-10px;
+  background:var(--surface);
+  border:1.5px solid var(--teal);
+  border-radius:7px 7px 6px 6px;
+  transform-origin:bottom center;
+  transition:transform .3s var(--ease);
+}
+.sidekick .sk-eye{
+  position:absolute;top:7px;
+  width:4px;height:4px;
+  border-radius:50%;
+  background:var(--teal);
+  box-shadow:0 0 4px rgba(78,205,196,0.7);
+  transition:transform .2s var(--ease), height .2s var(--ease);
+}
+.sidekick .sk-eye.l{left:4px}
+.sidekick .sk-eye.r{right:4px}
+.sidekick .sk-antenna{
+  position:absolute;left:50%;top:-7px;
+  width:2px;height:8px;
+  margin-left:-1px;
+  background:var(--muted);
+  transform-origin:bottom center;
+}
+.sidekick .sk-antenna::after{
+  content:'';position:absolute;top:-3px;left:50%;margin-left:-2px;
+  width:4px;height:4px;border-radius:50%;background:var(--amber);
+  box-shadow:0 0 5px rgba(247,197,159,0.8);
+}
+.sidekick .sk-arm{
+  position:absolute;bottom:16px;
+  width:9px;height:2.5px;
+  border-radius:2px;
+  background:var(--teal);
+  transform-origin:left center;
+  transition:transform .25s var(--ease);
+}
+.sidekick .sk-arm.l{left:8px;transform-origin:right center}
+.sidekick .sk-arm.r{right:8px}
+.sidekick .sk-leg{
+  position:absolute;bottom:0;
+  width:2.5px;height:9px;
+  border-radius:2px;
+  background:var(--muted);
+  transform-origin:top center;
+  transition:transform .2s var(--ease);
+}
+.sidekick .sk-leg.l{left:17px}
+.sidekick .sk-leg.r{right:17px}
+.sidekick .sk-shadow{
+  position:absolute;bottom:-4px;left:50%;
+  width:26px;height:5px;margin-left:-13px;
+  background:radial-gradient(ellipse at center, rgba(78,205,196,0.25) 0%, transparent 75%);
+  transition:transform .2s ease;
+}
+.sidekick .sk-thought{
+  position:absolute;top:-30px;left:50%;margin-left:6px;
+  font-family:var(--mono);font-size:14px;color:var(--amber);
+  opacity:0;
+  transition:opacity .3s ease;
+}
+
+/* — WALK pose: legs + arms swing, gentle bob — */
+.sidekick.pose-walk .sk-leg.l{animation:walk-leg-l .6s ease-in-out infinite}
+.sidekick.pose-walk .sk-leg.r{animation:walk-leg-r .6s ease-in-out infinite}
+.sidekick.pose-walk .sk-arm.l{animation:walk-arm-l .6s ease-in-out infinite}
+.sidekick.pose-walk .sk-arm.r{animation:walk-arm-r .6s ease-in-out infinite}
+.sidekick.pose-walk .sk-body,.sidekick.pose-walk .sk-head{animation:walk-bob .6s ease-in-out infinite}
+.sidekick.pose-walk .sk-shadow{animation:walk-shadow .6s ease-in-out infinite}
+@keyframes walk-leg-l{0%,100%{transform:rotate(24deg)}50%{transform:rotate(-24deg)}}
+@keyframes walk-leg-r{0%,100%{transform:rotate(-24deg)}50%{transform:rotate(24deg)}}
+@keyframes walk-arm-l{0%,100%{transform:rotate(-30deg)}50%{transform:rotate(30deg)}}
+@keyframes walk-arm-r{0%,100%{transform:rotate(30deg)}50%{transform:rotate(-30deg)}}
+@keyframes walk-bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+@keyframes walk-shadow{0%,100%{transform:scaleX(1)}50%{transform:scaleX(0.85)}}
+
+/* — THINK pose: hand to chin (arm up), head tilt, eyes look up — */
+.sidekick.pose-think .sk-arm.r{transform:rotate(-95deg) translateX(2px);}
+.sidekick.pose-think .sk-head{transform:rotate(-8deg)}
+.sidekick.pose-think .sk-eye{transform:translateY(-1.5px)}
+.sidekick.pose-think .sk-thought{opacity:1;animation:think-pulse 1.6s ease-in-out infinite}
+@keyframes think-pulse{0%,100%{opacity:0.4;transform:translateY(0)}50%{opacity:1;transform:translateY(-3px)}}
+
+/* — TYPE pose: both arms tap rapidly forward, quick head nod — */
+.sidekick.pose-type .sk-arm.l{animation:type-arm .28s ease-in-out infinite}
+.sidekick.pose-type .sk-arm.r{animation:type-arm .28s ease-in-out infinite .14s}
+.sidekick.pose-type .sk-head{animation:type-nod .5s ease-in-out infinite}
+@keyframes type-arm{0%,100%{transform:rotate(60deg)}50%{transform:rotate(85deg)}}
+@keyframes type-nod{0%,100%{transform:rotate(0)}50%{transform:rotate(4deg)}}
+
+/* — DANCE pose: full-body groove, arms up, hips shift — */
+.sidekick.pose-dance{animation:dance-sway .5s ease-in-out infinite}
+.sidekick.pose-dance .sk-arm.l{animation:dance-arm-l .5s ease-in-out infinite}
+.sidekick.pose-dance .sk-arm.r{animation:dance-arm-r .5s ease-in-out infinite}
+.sidekick.pose-dance .sk-leg.l,
+.sidekick.pose-dance .sk-leg.r{animation:dance-leg .5s ease-in-out infinite}
+.sidekick.pose-dance .sk-head{animation:dance-head .5s ease-in-out infinite}
+@keyframes dance-sway{0%,100%{transform:rotate(-6deg) translateY(0)}50%{transform:rotate(6deg) translateY(-4px)}}
+@keyframes dance-arm-l{0%,100%{transform:rotate(-120deg)}50%{transform:rotate(-40deg)}}
+@keyframes dance-arm-r{0%,100%{transform:rotate(120deg)}50%{transform:rotate(40deg)}}
+@keyframes dance-leg{0%,100%{transform:rotate(-10deg)}50%{transform:rotate(10deg)}}
+@keyframes dance-head{0%,100%{transform:rotate(-6deg)}50%{transform:rotate(6deg)}}
+
+/* — POINT pose: one arm raised straight up, proud stance, eyes wide — */
+.sidekick.pose-point .sk-arm.r{transform:rotate(-160deg)}
+.sidekick.pose-point .sk-eye{transform:scale(1.25)}
+.sidekick.pose-point .sk-head{animation:point-bob 1s ease-in-out infinite}
+@keyframes point-bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-2px)}}
 
 .hero-bio{font-size:15px;font-weight:300;line-height:1.85;color:var(--muted);max-width:520px;margin-bottom:48px}
 .hero-bio strong{color:var(--sand);font-weight:400}
@@ -269,11 +434,25 @@ footer{background:var(--deep);padding:40px var(--gap);border-top:1px solid rgba(
       <span class="tag">Open to Global Opportunities</span>
     </div>
     <h1 class="hero-name">
-      <span class="first">Elaf</span>
+      <span class="first" id="first-name">Elaf</span>
       <span class="last">Alnayer</span>
     </h1>
     <div class="terminal-line" id="terminal">
-      <span id="typed-text"></span><span class="cursor"></span>
+      <span class="terminal-text"><span id="typed-text"></span><span class="cursor"></span></span>
+      <div class="sidekick pose-walk" id="sidekick" aria-hidden="true">
+        <div class="sk-thought" id="sk-thought">?</div>
+        <div class="sk-antenna"></div>
+        <div class="sk-head">
+          <div class="sk-eye l"></div>
+          <div class="sk-eye r"></div>
+        </div>
+        <div class="sk-arm l"></div>
+        <div class="sk-arm r"></div>
+        <div class="sk-body"></div>
+        <div class="sk-leg l"></div>
+        <div class="sk-leg r"></div>
+        <div class="sk-shadow"></div>
+      </div>
     </div>
     <p class="hero-bio">
       Researcher and analyst exploring the <strong>power dynamics of the digital economy</strong>. Combining rigorous informatics with a focus on how technology and data shape <strong>local communities</strong>.
@@ -674,22 +853,49 @@ footer{background:var(--deep);padding:40px var(--gap);border-top:1px solid rgba(
 </footer>
 
 <script>
-/* ── TERMINAL TYPEWRITER ─────────────────── */
+/* ── NAME LETTER SPLIT ────────────────────── */
 (function(){
+  const el = document.getElementById('first-name');
+  const text = el.textContent;
+  el.textContent = '';
+  [...text].forEach(function(ch, i){
+    const span = document.createElement('span');
+    span.className = 'letter';
+    span.style.animationDelay = (0.15 + i * 0.09) + 's';
+    span.textContent = ch;
+    el.appendChild(span);
+  });
+})();
+
+/* ── TERMINAL TYPEWRITER + SIDEKICK REACTIONS ─────────────────── */
+(function(){
+  // Each role maps to a pose the sidekick strikes while that title is on screen.
   const roles = [
-    'Data Analyst & Researcher',
-    'ML Researcher · Peace Classifier Fellow',
-    'Open Source Investigator',
-    'Policy & Governance Analyst',
-    'FinTech & Digital Economy Researcher',
+    { text: 'Data Analyst & Researcher',              pose: 'walk',  thought: '📊' },
+    { text: 'ML Researcher · Peace Classifier Fellow', pose: 'think', thought: '🧠' },
+    { text: 'Open Source Investigator',                pose: 'type',  thought: '🔎' },
+    { text: 'Policy & Governance Analyst',             pose: 'point', thought: '📌' },
+    { text: 'FinTech & Digital Economy Researcher',    pose: 'dance', thought: '💸' },
   ];
   const el = document.getElementById('typed-text');
+  const sidekick = document.getElementById('sidekick');
+  const thoughtEl = document.getElementById('sk-thought');
   let ri = 0, ci = 0, deleting = false;
 
+  function setPose(index){
+    const role = roles[index];
+    sidekick.className = 'sidekick pose-' + role.pose;
+    thoughtEl.textContent = role.thought;
+    // little "startle" pop whenever the pose changes
+    sidekick.style.transform = 'scale(1.15)';
+    setTimeout(function(){ sidekick.style.transform = 'scale(1)'; }, 180);
+  }
+
   function type() {
-    const current = roles[ri];
+    const current = roles[ri].text;
     if (!deleting) {
       el.textContent = current.slice(0, ++ci);
+      if (ci === 1) setPose(ri); // strike the pose as soon as the role starts typing
       if (ci === current.length) { deleting = true; setTimeout(type, 2200); return; }
       setTimeout(type, 48);
     } else {
@@ -698,6 +904,7 @@ footer{background:var(--deep);padding:40px var(--gap);border-top:1px solid rgba(
       setTimeout(type, 22);
     }
   }
+  setPose(0);
   type();
 })();
 
