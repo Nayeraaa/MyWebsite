@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Projects — Elaf Alnayer</title>
+<meta name="description" content="Selected research, working reports, and casework by Elaf Alnayer — digital economy, governance, and open-source investigation."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="css/style.css"/>
+<style>
+/* ── PROJECTS PAGE HEADER ─────────────────── */
+.proj-header{position:relative;padding:150px 0 80px;background:var(--night);overflow:hidden}
+.proj-header .grid-line{opacity:0.5}
+.proj-eyebrow{display:flex;align-items:center;gap:12px;margin-bottom:24px;position:relative;z-index:2}
+.proj-eyebrow::before{content:'';display:block;width:40px;height:1px;background:var(--teal)}
+.proj-title{position:relative;z-index:2;font-family:var(--display);font-size:clamp(36px,6vw,64px);font-weight:700;letter-spacing:-1.5px;color:var(--sand);margin-bottom:20px;max-width:760px}
+.proj-sub{position:relative;z-index:2;font-size:15px;font-weight:300;line-height:1.85;color:var(--muted);max-width:600px}
+
+.proj-index{position:relative;z-index:2;display:flex;gap:0;margin-top:56px;padding-top:28px;border-top:1px solid rgba(78,205,196,0.12);flex-wrap:wrap}
+.proj-index a{font-family:var(--mono);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);padding:6px 18px 6px 0;margin-right:18px;border-right:1px solid rgba(78,205,196,0.12);transition:color .2s}
+.proj-index a:last-child{border-right:none}
+.proj-index a:hover{color:var(--teal)}
+
+/* ── CASE FILE ─────────────────────────────── */
+.case-section{background:var(--deep)}
+.case-list{display:flex;flex-direction:column;gap:2px}
+.case{background:var(--surface);padding:44px;display:grid;grid-template-columns:220px 1fr;gap:44px;opacity:0;transform:translateY(20px);transition:opacity .6s var(--ease),transform .6s var(--ease)}
+.case.visible{opacity:1;transform:translateY(0)}
+.case-left{padding-top:2px}
+.case-status{font-family:var(--mono);font-size:9px;letter-spacing:1.5px;text-transform:uppercase;padding:4px 10px;border:1px solid rgba(78,205,196,0.3);border-radius:2px;color:var(--teal);display:inline-block;margin-bottom:16px}
+.case-status.pending{border-color:rgba(247,197,159,0.35);color:var(--amber)}
+.case-role{font-family:var(--mono);font-size:11px;color:var(--muted);line-height:1.6}
+.case-role strong{color:var(--sand);font-weight:400;display:block;margin-bottom:2px}
+.case-title{font-family:var(--display);font-size:22px;font-weight:600;color:var(--sand);line-height:1.3;margin-bottom:16px}
+.case-desc{font-size:14px;font-weight:300;line-height:1.85;color:var(--muted);margin-bottom:18px}
+.case-outcomes{display:flex;flex-direction:column;gap:10px;margin-bottom:18px}
+.case-outcome{font-size:13px;font-weight:300;line-height:1.75;color:var(--muted);padding-left:18px;position:relative}
+.case-outcome::before{content:'—';position:absolute;left:0;color:var(--teal);font-size:10px;top:4px}
+.case-outcome strong{color:var(--sand);font-weight:400}
+.case-meta{display:flex;flex-wrap:wrap;gap:8px}
+
+@media(max-width:900px){
+  .case{grid-template-columns:1fr;gap:16px}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">Elaf <span>Alnayer</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="cv.html">CV</a></li>
+    <li><a href="#casework">Casework</a></li>
+    <li><a href="cv.html#contact">Contact</a></li>
+  </ul>
+  <a href="mailto:alnayer.eee@gmail.com" class="nav-badge">Hire Me</a>
+</nav>
+
+<!-- HEADER -->
+<section class="proj-header">
+  <div class="grid-line"></div>
+  <div class="wrap">
+    <div class="proj-eyebrow"><span class="tag" style="margin:0">Selected Research & Casework</span></div>
+    <h1 class="proj-title">Working reports, published research, and applied data projects.</h1>
+    <p class="proj-sub">Six case files spanning digital economy, governance, humanitarian financing, renewable energy, and machine learning — most conducted for UN agencies, research centres, and peace-tech initiatives across Sudan and the wider region.</p>
+
+    <div class="proj-index">
+      <a href="#hate-speech">Hate Speech</a>
+      <a href="#cosp">Mutual Aid</a>
+      <a href="#renewable">Renewable Energy</a>
+      <a href="#fintech">FinTech Policy</a>
+      <a href="#sorghum">Sorghum ML</a>
+      <a href="#governance">Governance</a>
+    </div>
+  </div>
+</section>
+
+<!-- CASE FILES -->
+<section class="case-section" id="casework">
+  <div class="wrap">
+    <div class="case-list">
+
+      <article class="case" id="hate-speech">
+        <div class="case-left">
+          <span class="case-status">Working Report</span>
+          <div class="case-role"><strong>Lead Researcher</strong>HBs & Build Up</div>
+        </div>
+        <div>
+          <h2 class="case-title">Online Hate Speech in Sudan: A Systemic Design Analysis</h2>
+          <p class="case-desc">A systemic design study mapping the ecosystem of counter-hate-speech organizations and stakeholders across Sudan — tracing coordination barriers between actors and the funding volatility that constrains sustained response.</p>
+          <div class="case-outcomes">
+            <div class="case-outcome"><strong>Outcome —</strong> Authored a diagnostic blueprint featuring a multi-layered stakeholder map used to identify where coordination breaks down.</div>
+          </div>
+          <div class="case-meta">
+            <span class="meta-pill">Systemic Design</span>
+            <span class="meta-pill">Stakeholder Mapping</span>
+            <span class="meta-pill">Peacetech</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="case" id="cosp">
+        <div class="case-left">
+          <span class="case-status">Working Report</span>
+          <div class="case-role"><strong>Research Assistant</strong>ISTinaD Research Centre</div>
+        </div>
+        <div>
+          <h2 class="case-title">Sustainable Financing of Communally Operated Social Service Provision (COSP)</h2>
+          <p class="case-desc">Synthesized research on the evolution of mutual aid and political resistance as sustainable alternatives to traditional, top-down humanitarian models during state decay — examining how communities finance and govern services when formal systems fail.</p>
+          <div class="case-outcomes">
+            <div class="case-outcome"><strong>DSA 2025 —</strong> Presented "A People-Centred Critique of International Humanitarian Aid Models" at the University of Bath, UK, focusing on digital aid architectures and local agency.</div>
+            <div class="case-outcome"><strong>SASE 2025 —</strong> Presented "From Political Resistance to Mutual Aid: Innovation in Civil Society Mobilization" in Montreal, Canada.</div>
+          </div>
+          <div class="case-meta">
+            <span class="meta-pill">Mutual Aid</span>
+            <span class="meta-pill">Humanitarian Systems</span>
+            <span class="meta-pill">Conference Presentations ×2</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="case" id="renewable">
+        <div class="case-left">
+          <span class="case-status pending">In Progress</span>
+          <div class="case-role"><strong>Research Assistant</strong>Economic Research Forum (ERF), RAISED Africa</div>
+        </div>
+        <div>
+          <h2 class="case-title">Transformative Impact of Renewable Energy Access on Africa's Socio-Economic Development — Sudan Case Study</h2>
+          <p class="case-desc">Supporting research on the socio-economic impacts of renewable energy access and adoption in Sudan, including employment, income generation, household welfare, entrepreneurship, and public service delivery. Examines the role of SMEs/MSMEs, financing mechanisms, and governance frameworks in an inclusive energy transition — with particular attention to youth, women, vulnerable groups, informal communities, and urbanization dynamics.</p>
+          <div class="case-outcomes">
+            <div class="case-outcome"><strong>Expected Jan–Apr 2027 —</strong> Co-authoring the first and final drafts of the National Case Study on Sudan, together with a corresponding policy brief and policy article.</div>
+            <div class="case-outcome"><strong>Expected 2027–2028 —</strong> Participating in the Case Studies First Drafts Technical Workshop, the Local Dissemination Conference, and the Regional Policy Forum.</div>
+          </div>
+          <div class="case-meta">
+            <span class="meta-pill">Renewable Energy</span>
+            <span class="meta-pill">SME Financing</span>
+            <span class="meta-pill">Policy Brief</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="case" id="fintech">
+        <div class="case-left">
+          <span class="case-status">Policy Paper</span>
+          <div class="case-role"><strong>Lead Author</strong>ISTinaD Research Centre</div>
+        </div>
+        <div>
+          <h2 class="case-title">Digital Payment Technology in Sudan</h2>
+          <p class="case-desc">Examined Sudan's financial technology ecosystem through the Digital Public Infrastructure (DPI) framework, analyzing how the ongoing conflict and the 2024 currency change placed dual pressure on financial transactions while accelerating FinTech adoption.</p>
+          <div class="case-outcomes">
+            <div class="case-outcome"><strong>Outcome —</strong> Published a policy brief offering recommendations for policymakers on advancing digital payment infrastructure in Sudan; co-authored with Razaz H. Basheir.</div>
+          </div>
+          <div class="case-meta">
+            <span class="meta-pill">FinTech</span>
+            <span class="meta-pill">Digital Public Infrastructure</span>
+          </div>
+          <a class="report-link" href="https://istinad.org/policy-paper-digital-payment-technology-in-sudan" target="_blank" rel="noopener">Read the policy brief</a>
+        </div>
+      </article>
+
+      <article class="case" id="sorghum">
+        <div class="case-left">
+          <span class="case-status">Published</span>
+          <div class="case-role"><strong>Lead Author</strong>University of Khartoum — Graduation Project</div>
+        </div>
+        <div>
+          <h2 class="case-title">Enhancement of Sorghum Forecasting Models: Optimizing XGBoost Regressors</h2>
+          <p class="case-desc">Developed and optimized machine learning models in Python to forecast crop yields in Sudan's rain-fed agricultural sector. Ran a comparative analysis of algorithms to improve prediction accuracy, addressing data gaps caused by environmental and climatic variability.</p>
+          <div class="case-outcomes">
+            <div class="case-outcome"><strong>Outcome —</strong> Published and presented a peer-reviewed paper at the International Conference on Electrical, Communication, and Computer Engineering (ICECCE 2023, UAE).</div>
+          </div>
+          <div class="case-meta">
+            <span class="meta-pill">XGBoost</span>
+            <span class="meta-pill">Agricultural Forecasting</span>
+            <span class="meta-pill">Python</span>
+          </div>
+          <a class="report-link" href="https://doi.org/10.1109/ICECCE61019.2023.10442132" target="_blank" rel="noopener">DOI: 10.1109/ICECCE61019.2023.10442132</a>
+        </div>
+      </article>
+
+      <article class="case" id="governance">
+        <div class="case-left">
+          <span class="case-status">Working Report</span>
+          <div class="case-role"><strong>Data Scientist</strong>UNICEF & World Bank, via ERF</div>
+        </div>
+        <div>
+          <h2 class="case-title">Evolving Governance Modalities of Service Provision</h2>
+          <p class="case-desc">Analyzed primary and secondary data sources to assess service provision, digital economy, and local governance systems amid the crisis in Sudan.</p>
+          <div class="case-outcomes">
+            <div class="case-outcome"><strong>Outcome —</strong> Co-authored a comprehensive report for UNICEF and the World Bank through the Economic Research Forum (ERF).</div>
+          </div>
+          <div class="case-meta">
+            <span class="meta-pill">Governance</span>
+            <span class="meta-pill">Service Provision</span>
+            <span class="meta-pill">UNICEF × World Bank</span>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ADJACENT WORK -->
+<section class="skills-section">
+  <div class="wrap">
+    <div class="sec-header">
+      <h2 class="sec-title">Adjacent Fieldwork</h2>
+      <span class="sec-count">2 engagements</span>
+    </div>
+    <div class="skills-grid" style="grid-template-columns:1fr 1fr">
+      <div class="skill-cell">
+        <div class="skill-cat">Build Up × IBM Tech Ethics Lab</div>
+        <p style="font-size:13px;font-weight:300;line-height:1.8;color:var(--muted)">Co-developed AI classifiers to detect polarized content and languages of violence on social media, integrating local expertise into machine annotation workflows as a Peace Classifier Fellow. Presented initial research on human oversight in conflict analysis at #BuildPeace2025 in Barcelona.</p>
+      </div>
+      <div class="skill-cell">
+        <div class="skill-cat">UNDP — Solar Energy Value Chains, Sudan</div>
+        <p style="font-size:13px;font-weight:300;line-height:1.8;color:var(--muted)">Conducted a technical and economic assessment of Sudan's solar supply chains — 100% import-dependent and shifting from unstable centralized grids to decentralized off-grid solutions. Co-authored a strategic roadmap proposing microfinanced microgrid models and PAYGO mechanisms.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Elaf <span>Alnayer</span></div>
+  <ul class="footer-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="cv.html">CV</a></li>
+    <li><a href="cv.html#contact">Contact</a></li>
+  </ul>
+  <div class="footer-copy">© 2025 Elaf Alnayer · Data Analyst & Researcher</div>
+</footer>
+
+<script>
+(function(){
+  const obs = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){
+        e.target.classList.add('visible');
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.case, .skill-cell').forEach(function(el, i){
+    el.style.transitionDelay = (i % 3) * 80 + 'ms';
+    obs.observe(el);
+  });
+})();
+</script>
+</body>
+</html>

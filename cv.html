@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Elaf Alnayer — Data Analyst & Researcher</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="css/style.css"/>
+<style>
+/* ── HERO (page-specific) ─────────────────── */
+.hero{position:relative;min-height:100vh;display:flex;align-items:center;padding-top:60px;overflow:hidden}
+.hero .grid-line{opacity:0.6}
+
+.hero-content{position:relative;z-index:2;padding:80px 0}
+.hero-eyebrow{display:flex;align-items:center;gap:12px;margin-bottom:28px}
+.hero-eyebrow::before{content:'';display:block;width:40px;height:1px;background:var(--teal)}
+.hero-eyebrow .tag{margin:0}
+
+.hero-name{font-family:var(--display);font-size:clamp(52px,8vw,96px);font-weight:700;line-height:0.95;letter-spacing:-2px;color:var(--sand);margin-bottom:8px}
+.hero-name .first{display:block}
+.hero-name .last{display:block;color:transparent;-webkit-text-stroke:1.5px var(--sand)}
+
+.hero-avatar{width:64px;height:64px;border-radius:50%;overflow:hidden;border:1px solid rgba(78,205,196,0.3);margin-bottom:24px;box-shadow:0 0 0 4px rgba(78,205,196,0.06)}
+.hero-avatar img{width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.05)}
+
+.terminal-line{font-family:var(--mono);font-size:clamp(14px,2vw,18px);color:var(--teal);margin:32px 0 40px;min-height:28px}
+.terminal-line::before{content:'> ';color:var(--muted)}
+.cursor{display:inline-block;width:10px;height:1.2em;background:var(--teal);margin-left:3px;vertical-align:text-bottom;animation:blink .8s step-end infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+
+.hero-bio{font-size:15px;font-weight:300;line-height:1.85;color:var(--muted);max-width:520px;margin-bottom:48px}
+.hero-bio strong{color:var(--sand);font-weight:400}
+
+.hero-actions{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+
+.hero-stats{display:grid;grid-template-columns:repeat(3,auto);gap:0;margin-top:72px;padding-top:40px;border-top:1px solid rgba(78,205,196,0.15);width:fit-content}
+.stat{padding:0 40px 0 0;margin-right:40px;border-right:1px solid rgba(78,205,196,0.12)}
+.stat:last-child{border:none;margin:0;padding:0}
+.stat-n{font-family:var(--display);font-size:38px;font-weight:700;color:var(--teal);line-height:1}
+.stat-l{font-family:var(--mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-top:6px}
+
+/* Floating data nodes */
+.data-nodes{position:absolute;right:0;top:50%;transform:translateY(-50%);width:42%;height:70vh;pointer-events:none;z-index:1}
+.node{position:absolute;border:1px solid;border-radius:3px;font-family:var(--mono);font-size:10px;padding:12px 16px;line-height:1.6;opacity:0;animation:node-in .6s var(--ease) forwards}
+@keyframes node-in{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.node-1{top:5%;left:15%;border-color:rgba(78,205,196,0.3);background:rgba(78,205,196,0.04);color:var(--teal);animation-delay:.4s}
+.node-2{top:28%;left:42%;border-color:rgba(247,197,159,0.3);background:rgba(247,197,159,0.04);color:var(--amber);animation-delay:.7s}
+.node-3{top:52%;left:8%;border-color:rgba(232,224,208,0.2);background:rgba(232,224,208,0.03);color:var(--muted);animation-delay:1s}
+.node-4{top:70%;left:38%;border-color:rgba(78,205,196,0.25);background:rgba(78,205,196,0.03);color:var(--teal);animation-delay:1.3s}
+.node-dot{width:6px;height:6px;border-radius:50%;background:var(--teal);position:absolute;top:-3px;right:20px}
+
+/* ── HERO — RESPONSIVE (page-specific) ────── */
+@media(max-width:900px){
+  .data-nodes{display:none}
+  .hero-name{font-size:clamp(42px,12vw,72px)}
+  .hero-stats{grid-template-columns:repeat(3,auto);gap:0}
+}
+@media(max-width:600px){
+  .hero-stats{gap:20px;flex-wrap:wrap;display:flex;flex-direction:column}
+  .stat{padding:0;margin:0;border:none}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">Elaf <span>Alnayer</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#research">Research</a></li>
+    <li><a href="projects.html">Projects</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="mailto:alnayer.eee@gmail.com" class="nav-badge">Hire Me</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="grid-line"></div>
+
+  <!-- Floating data annotation nodes -->
+  <div class="data-nodes">
+    <div class="node node-1">
+      <div class="node-dot"></div>
+      <div>model: XGBoost Regressor</div>
+      <div>dataset: Sudan rain-fed crops</div>
+      <div>accuracy: ↑ optimized</div>
+    </div>
+    <div class="node node-2">
+      <div>org: UNICEF × World Bank</div>
+      <div>scope: Sudan governance</div>
+      <div>role: Data Scientist</div>
+    </div>
+    <div class="node node-3">
+      <div>tools: ArcGIS · Tableau · R</div>
+      <div>method: Spatial analysis</div>
+      <div>domain: Digital economy</div>
+    </div>
+    <div class="node node-4">
+      <div>conf: #BuildPeace2025</div>
+      <div>location: Barcelona</div>
+      <div>topic: AI × Conflict analysis</div>
+    </div>
+  </div>
+
+  <div class="wrap hero-content">
+    <div class="hero-avatar"><img src="images/elaf.jpg" alt="Portrait of Elaf Alnayer"/></div>
+    <div class="hero-eyebrow">
+      <span class="tag">United Arab Emirates · Open to Global Opportunities</span>
+    </div>
+    <h1 class="hero-name">
+      <span class="first">Elaf</span>
+      <span class="last">Alnayer</span>
+    </h1>
+    <div class="terminal-line" id="terminal">
+      <span id="typed-text"></span><span class="cursor"></span>
+    </div>
+    <p class="hero-bio">
+      Researcher and analyst exploring the <strong>power dynamics of the digital economy</strong>. Combining rigorous informatics with a focus on how technology and data shape <strong>local communities</strong> — from Sudan's agricultural sector to international humanitarian systems.
+    </p>
+    <div class="hero-actions">
+      <a href="#research" class="btn-primary">View Research</a>
+      <a href="#contact" class="btn-ghost">Get in Touch</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-n">3+</div>
+        <div class="stat-l">UN / Intl Orgs</div>
+      </div>
+      <div class="stat">
+        <div class="stat-n">6</div>
+        <div class="stat-l">Working Reports</div>
+      </div>
+      <div class="stat">
+        <div class="stat-n">2</div>
+        <div class="stat-l">Conf. Presentations</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section class="exp-section" id="experience">
+  <div class="wrap">
+    <div class="sec-header">
+      <h2 class="sec-title">Professional Experience</h2>
+      <span class="sec-count">07 roles</span>
+    </div>
+
+    <div class="exp-item">
+      <div class="exp-left">
+        <div class="exp-period">Jul 2023 – Oct 2025</div>
+        <div class="exp-org">ISTinaD Research Centre<br/>Remote · Full-time</div>
+      </div>
+      <div class="exp-right">
+        <div class="exp-role">Research Assistant</div>
+        <ul class="exp-bullets">
+          <li>Conducted interdisciplinary research on <strong>service provision, FinTech, digital economy, and governance systems</strong>.</li>
+          <li>Analyzed primary and secondary data sources, integrating spatial and regulatory insights.</li>
+          <li>Managed digital platforms and streamlined internal coordination across project teams.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="exp-item">
+      <div class="exp-left">
+        <div class="exp-period">Jan 2024 – Dec 2025</div>
+        <div class="exp-org">Mnemonic<br/>Remote · Full-time</div>
+      </div>
+      <div class="exp-right">
+        <div class="exp-role">Open Source Researcher</div>
+        <ul class="exp-bullets">
+          <li>Led data collection and verification for OS investigations in <strong>conflict-affected regions</strong>.</li>
+          <li>Integrated <strong>AI/ML workflows</strong> into the Sudanese Archive, improving dataset curation and training protocols.</li>
+          <li>Designed and conducted training sessions for researchers and partners in verification methodologies.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="exp-item">
+      <div class="exp-left">
+        <div class="exp-period">Oct 2023 – Dec 2023</div>
+        <div class="exp-org">Alela Technologies Ltd<br/>Juba, South Sudan</div>
+      </div>
+      <div class="exp-right">
+        <div class="exp-role">Technology Coordinator</div>
+        <ul class="exp-bullets">
+          <li>Organized and supervised <strong>The Girls Leadership Summit</strong> and The Banat Initiative for Leadership & Digital Development (BiLDD).</li>
+          <li>Developed training materials for digital literacy sessions.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="exp-item">
+      <div class="exp-left">
+        <div class="exp-period">UNDP Project</div>
+        <div class="exp-org">Solar Energy<br/>Value Chains · Sudan</div>
+      </div>
+      <div class="exp-right">
+        <div class="exp-role">Research Assistant — Solar Energy Value Chains</div>
+        <ul class="exp-bullets">
+          <li>Conducted technical and economic assessment of solar supply chains in Sudan — <strong>100% import dependency</strong> mapping.</li>
+          <li>Documented critical market barriers including port clearance delays and currency instability choke points.</li>
+          <li>Co-authored UNDP report proposing <strong>microfinanced microgrid models</strong> and PAYGO mechanisms.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="exp-item">
+      <div class="exp-left">
+        <div class="exp-period">Build Up × IBM</div>
+        <div class="exp-org">Peace Classifier Fellowship<br/>ML / Ethics</div>
+      </div>
+      <div class="exp-right">
+        <div class="exp-role">ML Researcher & Fellow — Peace Classifier</div>
+        <ul class="exp-bullets">
+          <li>Co-developed <strong>AI classifiers</strong> to detect polarized content and languages of violence on social media.</li>
+          <li>Integrated local expertise into machine annotation workflows.</li>
+          <li>Presented research on human oversight in conflict analysis at <strong>#BuildPeace2025, Barcelona</strong>.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="exp-item">
+      <div class="exp-left">
+        <div class="exp-period">UNICEF × World Bank</div>
+        <div class="exp-org">Economic Research Forum (ERF)<br/>Sudan</div>
+      </div>
+      <div class="exp-right">
+        <div class="exp-role">Data Scientist — Governance & Service Provision</div>
+        <ul class="exp-bullets">
+          <li>Analyzed primary and secondary data to assess <strong>service provision, digital economy, and local governance</strong> amid the Sudan crisis.</li>
+          <li>Co-authored a comprehensive report for UNICEF and the World Bank through the ERF.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="exp-item">
+      <div class="exp-left">
+        <div class="exp-period">Dec 2021 – Aug 2022</div>
+        <div class="exp-org">World Food Programme<br/>Khartoum, Sudan</div>
+      </div>
+      <div class="exp-right">
+        <div class="exp-role">Targeting Information Management Intern</div>
+        <ul class="exp-bullets">
+          <li>Maintained the IMS process of the profiling and targeting project at the digitization unit.</li>
+          <li>Designed an interface, trained data collectors, monitored data gathering, and performed <strong>data analysis</strong> for the beneficiary database.</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- RESEARCH REPORTS -->
+<section class="reports-section" id="research">
+  <div class="wrap">
+    <div class="sec-header">
+      <h2 class="sec-title">Research & Working Reports</h2>
+      <span class="sec-count">06 projects</span>
+    </div>
+    <div class="reports-grid">
+
+      <div class="report-card">
+        <div class="report-tag">Lead Researcher · HBs & Build Up</div>
+        <div class="report-title">Online Hate Speech in Sudan: A Systemic Design Analysis</div>
+        <div class="report-desc">Conducted a systemic design study to map the ecosystem of counter-hate speech organizations and stakeholders in Sudan, analyzing coordination barriers and funding volatility.</div>
+        <div class="report-outcome">Diagnostic blueprint with multi-layered stakeholder map</div>
+      </div>
+
+      <div class="report-card">
+        <div class="report-tag">Research Assistant · ISTinaD</div>
+        <div class="report-title">Sustainable Financing of Communally Operated Social Service Provision (COSP)</div>
+        <div class="report-desc">Synthesized research on the evolution of mutual aid and political resistance as sustainable alternatives to traditional humanitarian models during state decay.</div>
+        <div class="report-outcome">Presented at DSA 2025 (Bath, UK) · SASE 2025 (Montreal, Canada)</div>
+      </div>
+
+      <div class="report-card">
+        <div class="report-tag">Research Assistant · ERF / RAISED Africa</div>
+        <div class="report-title">Renewable Energy Access Impact on Africa's Socio-Economic Development — Sudan Case Study</div>
+        <div class="report-desc">Supporting research on socio-economic impacts of renewable energy adoption in Sudan, examining SMEs/MSMEs, financing mechanisms, and governance frameworks with attention to vulnerable communities.</div>
+        <div class="report-outcome">Co-authoring National Case Study (Expected Jan–Apr 2027) · Regional Policy Forum (2028)</div>
+      </div>
+
+      <div class="report-card">
+        <div class="report-tag">Lead Author · ISTinaD Research Centre</div>
+        <div class="report-title">Digital Payment Technology in Sudan — Policy Paper</div>
+        <div class="report-desc">Examined Sudan's FinTech ecosystem through the Digital Public Infrastructure (DPI) framework, analyzing how conflict and the 2024 currency change accelerated FinTech adoption under dual pressure.</div>
+        <div class="report-outcome">Published policy brief · istinad.org/policy-paper-digital-payment-technology-in-sudan</div>
+      </div>
+
+      <div class="report-card">
+        <div class="report-tag">Lead Author · University of Khartoum</div>
+        <div class="report-title">Enhancement of Sorghum Forecasting Models: Optimizing XGBoost Regressors</div>
+        <div class="report-desc">Developed and optimized ML models using Python to forecast crop yields in Sudan's rain-fed agricultural sector. Conducted comparative analysis addressing data gaps from environmental variability.</div>
+        <div class="report-outcome">Published at ICECCE 2023 (UAE) · DOI: 10.1109/ICECCE61019.2023.10442132</div>
+      </div>
+
+      <div class="report-card">
+        <div class="report-tag">Data Scientist · UNICEF × World Bank × ERF</div>
+        <div class="report-title">Evolving Governance Modalities of Service Provision</div>
+        <div class="report-desc">Analyzed primary and secondary data sources to assess service provision, digital economy, and local governance systems amid the crisis in Sudan.</div>
+        <div class="report-outcome">Co-authored comprehensive report for UNICEF and the World Bank</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section class="skills-section" id="skills">
+  <div class="wrap">
+    <div class="sec-header">
+      <h2 class="sec-title">Skills & Tools</h2>
+      <span class="sec-count">3 domains</span>
+    </div>
+    <div class="skills-grid">
+      <div class="skill-cell">
+        <div class="skill-cat">Technical Tools</div>
+        <div class="skill-list">
+          <span class="skill-pill">RStudio</span>
+          <span class="skill-pill">Tableau</span>
+          <span class="skill-pill">ArcGIS</span>
+          <span class="skill-pill">Google Earth Engine</span>
+          <span class="skill-pill">Kobo Toolbox</span>
+          <span class="skill-pill">Moodlebox</span>
+          <span class="skill-pill">Google Earth Pro</span>
+          <span class="skill-pill">DB Administration</span>
+        </div>
+      </div>
+      <div class="skill-cell">
+        <div class="skill-cat">Programming</div>
+        <div class="skill-list">
+          <span class="skill-pill">Python</span>
+          <span class="skill-pill">R</span>
+          <span class="skill-pill">JavaScript</span>
+          <span class="skill-pill">HTML / CSS</span>
+          <span class="skill-pill">C++</span>
+          <span class="skill-pill">Java</span>
+          <span class="skill-pill">XGBoost</span>
+          <span class="skill-pill">ML Pipelines</span>
+        </div>
+      </div>
+      <div class="skill-cell">
+        <div class="skill-cat">Research Methods</div>
+        <div class="skill-list">
+          <span class="skill-pill">Qualitative Research</span>
+          <span class="skill-pill">Quantitative Analysis</span>
+          <span class="skill-pill">Spatial Analysis</span>
+          <span class="skill-pill">Policy Writing</span>
+          <span class="skill-pill">Data Visualization</span>
+          <span class="skill-pill">Open Source OSINT</span>
+          <span class="skill-pill">Systemic Design</span>
+          <span class="skill-pill">Project Management</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section class="edu-section" id="education">
+  <div class="wrap">
+    <div class="sec-header">
+      <h2 class="sec-title">Education</h2>
+      <span class="sec-count">2 institutions</span>
+    </div>
+    <div class="edu-grid">
+      <div class="edu-card featured">
+        <div class="edu-year">2026 – Present</div>
+        <div class="edu-inst">Massachusetts Institute of Technology</div>
+        <div class="edu-degree">MITx MicroMasters® Program<br/>Data, Economics, and Development Policy (DEDP)</div>
+        <div><span class="edu-badge amber">● In Progress</span></div>
+      </div>
+      <div class="edu-card">
+        <div class="edu-year">2015 – 2023</div>
+        <div class="edu-inst">University of Khartoum</div>
+        <div class="edu-degree">BSc (Honors) in Information Technology<br/>Khartoum, Sudan</div>
+        <div class="edu-degree" style="margin-top:10px;font-style:italic">Dissertation: Enhancement of Sorghum Forecasting Models — Optimizing XGBoost Regressors</div>
+        <div><span class="edu-badge">✓ Graduated</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LEADERSHIP -->
+<section class="lead-section" id="leadership">
+  <div class="wrap">
+    <div class="sec-header">
+      <h2 class="sec-title">Leadership & Activities</h2>
+      <span class="sec-count">5 roles</span>
+    </div>
+    <div class="lead-list">
+
+      <div class="lead-item">
+        <div class="lead-period">Nov 2020 – Aug 2021<br/>Khartoum, Sudan</div>
+        <div class="lead-dot"></div>
+        <div>
+          <div class="lead-role">Technical Communicator</div>
+          <div class="lead-org">Strategic Initiative for Women in the Horn of Africa (SIHA Sudan) — facilitated digital literacy for 100+ women</div>
+        </div>
+      </div>
+
+      <div class="lead-item">
+        <div class="lead-period">May 2022 – Dec 2022<br/>BlueNile, Sudan</div>
+        <div class="lead-dot"></div>
+        <div>
+          <div class="lead-role">Community Engagement Officer</div>
+          <div class="lead-org">CivilScope Organization — community strategy, risk management, event planning, and the CivilEd project</div>
+        </div>
+      </div>
+
+      <div class="lead-item">
+        <div class="lead-period">Aug 2021 – Aug 2022<br/>Khartoum, Sudan</div>
+        <div class="lead-dot"></div>
+        <div>
+          <div class="lead-role">Founder — School Feminists Society (SFS)</div>
+          <div class="lead-org">Head of Research and Technology Office, University of Khartoum</div>
+        </div>
+      </div>
+
+      <div class="lead-item">
+        <div class="lead-period">Jan 2021 – Aug 2021<br/>Khartoum, Sudan</div>
+        <div class="lead-dot"></div>
+        <div>
+          <div class="lead-role">President, FMS Student Association</div>
+          <div class="lead-org">Faculty of Mathematical Sciences and Informatics, University of Khartoum</div>
+        </div>
+      </div>
+
+      <div class="lead-item">
+        <div class="lead-period">Jan 2020 – Jan 2021<br/>Khartoum, Sudan</div>
+        <div class="lead-dot"></div>
+        <div>
+          <div class="lead-role">Member, FMS Student Association</div>
+          <div class="lead-org">Faculty of Mathematical Sciences and Informatics, University of Khartoum</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact-section" id="contact">
+  <div class="wrap">
+    <div class="contact-inner">
+      <div>
+        <span class="tag">Get in Touch</span>
+        <h2 class="contact-title">Let's work<br/><em>together.</em></h2>
+        <p class="contact-sub">Available for research collaborations, data analysis projects, policy consulting, and speaking engagements. Based in UAE, working globally.</p>
+        <div class="contact-items">
+          <div class="contact-item">
+            <div class="c-label">Email</div>
+            <a href="mailto:alnayer.eee@gmail.com">alnayer.eee@gmail.com</a>
+          </div>
+          <div class="contact-item">
+            <div class="c-label">WhatsApp</div>
+            <a href="tel:+971522446129">+971 522 446 129</a>
+          </div>
+          <div class="contact-item">
+            <div class="c-label">LinkedIn</div>
+            <a href="https://www.linkedin.com/in/elaf-alnayer-7a1613127" target="_blank">linkedin.com/in/elaf-alnayer</a>
+          </div>
+          <div class="contact-item">
+            <div class="c-label">Location</div>
+            <span>United Arab Emirates</span>
+          </div>
+        </div>
+      </div>
+
+      <form class="contact-form" onsubmit="return false;">
+        <div class="f-row">
+          <div class="f-group">
+            <label>Name</label>
+            <input type="text" placeholder="Your name"/>
+          </div>
+          <div class="f-group">
+            <label>Email</label>
+            <input type="email" placeholder="your@email.com"/>
+          </div>
+        </div>
+        <div class="f-group">
+          <label>Subject</label>
+          <select>
+            <option value="">Select a topic…</option>
+            <option>Research Collaboration</option>
+            <option>Data Analysis Project</option>
+            <option>Policy Consulting</option>
+            <option>Speaking Engagement</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="f-group">
+          <label>Message</label>
+          <textarea placeholder="Describe your project or inquiry…"></textarea>
+        </div>
+        <button type="submit" class="btn-send">Send Message</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Elaf <span>Alnayer</span></div>
+  <ul class="footer-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="projects.html">Projects</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="footer-copy">© 2025 Elaf Alnayer · Data Analyst & Researcher</div>
+</footer>
+
+<script>
+/* ── TERMINAL TYPEWRITER ─────────────────── */
+(function(){
+  const roles = [
+    'Data Analyst & Researcher',
+    'ML Researcher · Peace Classifier Fellow',
+    'Open Source Investigator',
+    'Policy & Governance Analyst',
+    'FinTech & Digital Economy Researcher',
+  ];
+  const el = document.getElementById('typed-text');
+  let ri = 0, ci = 0, deleting = false;
+
+  function type() {
+    const current = roles[ri];
+    if (!deleting) {
+      el.textContent = current.slice(0, ++ci);
+      if (ci === current.length) { deleting = true; setTimeout(type, 2200); return; }
+      setTimeout(type, 48);
+    } else {
+      el.textContent = current.slice(0, --ci);
+      if (ci === 0) { deleting = false; ri = (ri + 1) % roles.length; setTimeout(type, 300); return; }
+      setTimeout(type, 22);
+    }
+  }
+  type();
+})();
+
+/* ── NAV SCROLL STYLE ────────────────────── */
+window.addEventListener('scroll', function(){
+  document.querySelector('nav').style.borderBottomColor =
+    window.scrollY > 40 ? 'rgba(78,205,196,0.2)' : 'rgba(78,205,196,0.1)';
+});
+
+/* ── INTERSECTION REVEAL ─────────────────── */
+(function(){
+  const obs = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){
+        e.target.classList.add('visible');
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll(
+    '.exp-item, .report-card, .skill-cell, .edu-card, .lead-item, [data-reveal]'
+  ).forEach(function(el, i){
+    el.style.transitionDelay = (i % 4) * 80 + 'ms';
+    obs.observe(el);
+  });
+})();
+</script>
+</body>
+</html>
