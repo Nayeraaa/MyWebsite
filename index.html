@@ -40,13 +40,88 @@ img{display:block;width:100%}
 
 /* ── NAV ────────────────────────────────── */
 nav{position:fixed;top:0;left:0;right:0;z-index:900;height:60px;display:flex;align-items:center;justify-content:space-between;padding:0 var(--gap);border-bottom:1px solid rgba(78,205,196,0.1);background:rgba(11,17,32,0.85);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
-.nav-logo{font-family:var(--display);font-size:15px;font-weight:700;letter-spacing:-0.3px;color:var(--sand)}
+.nav-logo{font-family:var(--display);font-size:15px;font-weight:700;letter-spacing:-0.3px;color:var(--sand);position:relative;z-index:2}
 .nav-logo span{color:var(--teal)}
 .nav-links{display:flex;gap:32px;list-style:none}
 .nav-links a{font-family:var(--mono);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);transition:color .2s}
 .nav-links a:hover{color:var(--teal)}
 .nav-badge{font-family:var(--mono);font-size:10px;letter-spacing:1px;padding:5px 14px;border:1px solid var(--teal);border-radius:2px;color:var(--teal);transition:all .2s}
 .nav-badge:hover{background:var(--teal);color:var(--night)}
+
+/* Hamburger toggle — hidden on desktop, shown under the tablet breakpoint */
+.nav-toggle{
+  display:none;
+  position:relative;z-index:2;
+  width:34px;height:34px;
+  border:1px solid rgba(78,205,196,0.3);
+  border-radius:3px;
+  background:transparent;
+  cursor:pointer;
+  padding:0;
+  align-items:center;justify-content:center;
+}
+.nav-toggle .bars{position:relative;width:16px;height:12px}
+.nav-toggle .bars span{
+  position:absolute;left:0;width:100%;height:1.5px;
+  background:var(--teal);border-radius:2px;
+  transition:transform .3s var(--ease),opacity .3s var(--ease),top .3s var(--ease);
+}
+.nav-toggle .bars span:nth-child(1){top:0}
+.nav-toggle .bars span:nth-child(2){top:5px}
+.nav-toggle .bars span:nth-child(3){top:10px}
+body.nav-open .nav-toggle .bars span:nth-child(1){top:5px;transform:rotate(45deg)}
+body.nav-open .nav-toggle .bars span:nth-child(2){opacity:0}
+body.nav-open .nav-toggle .bars span:nth-child(3){top:5px;transform:rotate(-45deg)}
+
+/* Fullscreen mobile menu overlay */
+.mobile-menu{
+  position:fixed;inset:0;z-index:850;
+  background:var(--night);
+  display:flex;flex-direction:column;
+  align-items:flex-start;justify-content:center;
+  gap:6px;
+  padding:0 var(--gap);
+  opacity:0;visibility:hidden;
+  transform:translateY(-12px);
+  transition:opacity .35s var(--ease),transform .35s var(--ease),visibility 0s linear .35s;
+}
+.mobile-menu::before{
+  content:'';position:absolute;inset:0;
+  background-image:linear-gradient(rgba(78,205,196,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(78,205,196,0.04) 1px,transparent 1px);
+  background-size:44px 44px;pointer-events:none;
+}
+body.nav-open .mobile-menu{
+  opacity:1;visibility:visible;
+  transform:translateY(0);
+  transition:opacity .35s var(--ease),transform .35s var(--ease),visibility 0s linear 0s;
+}
+body.nav-open{overflow:hidden}
+.mobile-menu a{
+  position:relative;
+  font-family:var(--display);font-weight:600;
+  font-size:clamp(30px,9vw,48px);
+  letter-spacing:-0.5px;
+  color:var(--sand);
+  padding:10px 0;
+  opacity:0;transform:translateY(14px);
+  transition:opacity .4s var(--ease),transform .4s var(--ease),color .2s;
+}
+body.nav-open .mobile-menu a{opacity:1;transform:translateY(0)}
+.mobile-menu a:nth-child(1){transition-delay:.05s}
+.mobile-menu a:nth-child(2){transition-delay:.1s}
+.mobile-menu a:nth-child(3){transition-delay:.15s}
+.mobile-menu a:nth-child(4){transition-delay:.2s}
+.mobile-menu a:nth-child(5){transition-delay:.25s}
+.mobile-menu a:hover{color:var(--teal)}
+.mobile-menu a span{font-family:var(--mono);font-size:11px;color:var(--teal);margin-right:14px;vertical-align:middle}
+.mobile-menu-badge{
+  margin-top:24px;
+  font-family:var(--mono);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;
+  padding:11px 22px;border:1px solid var(--teal);border-radius:2px;color:var(--teal);
+  opacity:0;transform:translateY(14px);
+  transition:opacity .4s var(--ease) .3s,transform .4s var(--ease) .3s;
+}
+body.nav-open .mobile-menu-badge{opacity:1;transform:translateY(0)}
 
 /* ── HERO ────────────────────────────────── */
 .hero{position:relative;min-height:100vh;display:flex;align-items:center;padding-top:60px;overflow:hidden}
@@ -422,23 +497,59 @@ footer{background:var(--deep);padding:40px var(--gap);border-top:1px solid rgba(
 [data-reveal].visible{opacity:1;transform:translateY(0)}
 
 /* ── RESPONSIVE ──────────────────────────── */
+
+/* Tablet landscape / small laptop: tighten spacing, keep full nav */
+@media(max-width:1100px){
+  :root{ --gap:clamp(20px,5vw,56px); }
+  .data-nodes{width:38%}
+  .exp-item{grid-template-columns:170px 1fr;gap:32px}
+}
+
+/* Tablet: switch to hamburger nav, single-column heavy grids start collapsing */
 @media(max-width:900px){
+  .nav-links,.nav-badge{display:none}
+  .nav-toggle{display:flex}
   .reports-grid,.edu-grid,.contact-inner{grid-template-columns:1fr}
   .skills-grid{grid-template-columns:1fr 1fr}
   .exp-item{grid-template-columns:1fr;gap:8px}
   .data-nodes{display:none}
   .hero-name{font-size:clamp(42px,12vw,72px)}
   .hero-stats{grid-template-columns:repeat(3,auto);gap:0}
-  .nav-links{display:none}
+  .lead-item{gap:24px}
+  .lead-period{min-width:120px}
 }
-@media(max-width:600px){
-  .skills-grid{grid-template-columns:1fr}
-  .hero-stats{gap:20px;flex-wrap:wrap}
-  .f-row{grid-template-columns:1fr}
-  footer{flex-direction:column;text-align:center}
+
+/* Mobile: stack the terminal + sidekick, single-column grids, roomier tap targets */
+@media(max-width:680px){
+  section{padding:64px 0}
+  .hero{min-height:auto;padding-bottom:60px}
+  .hero-content{padding:56px 0 40px}
+  .terminal-line{flex-wrap:wrap;row-gap:10px}
+  .sidekick{order:-1;width:38px;height:48px}
+  .hero-actions{width:100%}
+  .hero-actions a{flex:1;text-align:center}
+  .hero-stats{display:flex;flex-direction:column;gap:16px}
   .stat{padding:0;margin:0;border:none}
-  .hero-stats{display:flex;flex-direction:column}
+  .skills-grid{grid-template-columns:1fr}
+  .lead-item{flex-wrap:wrap;gap:12px 24px}
+  .lead-period{min-width:0;flex-basis:100%;order:1}
+  .contact-inner{gap:48px}
+  .f-row{grid-template-columns:1fr}
+  footer{flex-direction:column;text-align:center;gap:20px}
+  .footer-links{flex-wrap:wrap;justify-content:center}
 }
+
+/* Small phones: reclaim edge padding, shrink display type further */
+@media(max-width:420px){
+  :root{ --gap:16px; }
+  .hero-name{font-size:clamp(36px,13vw,52px)}
+  .terminal-line{font-size:13px}
+  .sec-title{font-size:clamp(24px,7vw,32px)}
+  .report-card,.edu-card{padding:26px}
+  .exp-role{font-size:17px}
+  .mobile-menu a{font-size:clamp(26px,10vw,36px)}
+}
+
 @media(prefers-reduced-motion:reduce){
   *{animation:none!important;transition:none!important}
 }
@@ -457,7 +568,19 @@ footer{background:var(--deep);padding:40px var(--gap);border-top:1px solid rgba(
     <li><a href="#contact">Contact</a></li>
   </ul>
   <a href="mailto:alnayer.eee@gmail.com" class="nav-badge">Get in Touch with me</a>
+  <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobile-menu">
+    <span class="bars"><span></span><span></span><span></span></span>
+  </button>
 </nav>
+
+<div class="mobile-menu" id="mobile-menu">
+  <a href="#experience"><span>01</span>Experience</a>
+  <a href="#research"><span>02</span>Research</a>
+  <a href="#skills"><span>03</span>Skills</a>
+  <a href="#education"><span>04</span>Education</a>
+  <a href="#contact"><span>05</span>Contact</a>
+  <a href="mailto:alnayer.eee@gmail.com" class="mobile-menu-badge">alnayer.eee@gmail.com</a>
+</div>
 
 <!-- HERO -->
 <section class="hero" id="home">
@@ -977,6 +1100,40 @@ window.addEventListener('scroll', function(){
   document.querySelector('nav').style.borderBottomColor =
     window.scrollY > 40 ? 'rgba(78,205,196,0.2)' : 'rgba(78,205,196,0.1)';
 });
+
+/* ── MOBILE MENU TOGGLE ──────────────────── */
+(function(){
+  const toggle = document.getElementById('nav-toggle');
+  const menu = document.getElementById('mobile-menu');
+
+  function closeMenu(){
+    document.body.classList.remove('nav-open');
+    toggle.setAttribute('aria-expanded', 'false');
+  }
+  function openMenu(){
+    document.body.classList.add('nav-open');
+    toggle.setAttribute('aria-expanded', 'true');
+  }
+
+  toggle.addEventListener('click', function(){
+    document.body.classList.contains('nav-open') ? closeMenu() : openMenu();
+  });
+
+  // Close the menu once a link is tapped, so scrolling to the section is visible.
+  menu.querySelectorAll('a').forEach(function(a){
+    a.addEventListener('click', closeMenu);
+  });
+
+  // If the viewport grows back past the mobile breakpoint, reset menu state.
+  window.addEventListener('resize', function(){
+    if (window.innerWidth > 900) closeMenu();
+  });
+
+  // Escape key closes the menu too.
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape') closeMenu();
+  });
+})();
 
 /* ── INTERSECTION REVEAL ─────────────────── */
 (function(){
