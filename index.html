@@ -1124,6 +1124,9 @@ footer{background:var(--deep);padding:40px var(--gap);border-top:1px solid rgba(
       </form>-->
       <!-- Replace onsubmit="return false;" with your JS function -->
 <form class="contact-form" onsubmit="handleSubmit(event)">
+  <!-- Web3Forms Access Key -->
+  <input type="hidden" name="access_key" value="742b901b-7a80-43da-9950-5e7f28d0601f" />
+
   <div class="f-row">
     <div class="f-group">
       <label for="name">Name</label>
@@ -1152,19 +1155,49 @@ footer{background:var(--deep);padding:40px var(--gap);border-top:1px solid rgba(
     <textarea id="message" name="message" placeholder="Describe your project or inquiry…" required></textarea>
   </div>
 
+  <!-- Status message element for user feedback -->
+  <div id="result" style="margin-top: 10px; font-weight: 500;"></div>
+
   <button type="submit" class="btn-send magnetic" data-cursor="SEND">Send Message</button>
 </form>
 
 <script>
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault(); // Prevents page reload
-    
-    // Example: Reading form data
-    const formData = new FormData(event.target);
-    const data = Object.fromEntries(formData.entries());
-    
-    console.log("Form Submitted:", data);
-    // Add your API fetch request here
+
+    const form = event.target;
+    const result = document.getElementById('result');
+    const submitBtn = form.querySelector('button[type="submit"]');
+
+    // UI Feedback: Show loading state
+    result.style.color = "#888";
+    result.innerHTML = "Sending...";
+    submitBtn.disabled = true;
+
+    const formData = new FormData(form);
+
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        body: formData
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        result.style.color = "#10B981"; // Green success text
+        result.innerHTML = "Message sent successfully!";
+        form.reset(); // Clear the form inputs
+      } else {
+        result.style.color = "#EF4444"; // Red error text
+        result.innerHTML = data.message || "Something went wrong. Please try again.";
+      }
+    } catch (error) {
+      result.style.color = "#EF4444";
+      result.innerHTML = "Network error. Please try again later.";
+    } finally {
+      submitBtn.disabled = false;
+    }
   }
 </script>
     </div>
