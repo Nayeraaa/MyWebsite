@@ -114,48 +114,107 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;height:60px;display:flex;ali
   position:absolute;left:50%;bottom:10px;
   width:22px;height:20px;
   margin-left:-11px;
-  background:var(--surface);
-  border:1.5px solid var(--teal);
-  border-radius:6px;
+  background:#1C6E68;
+  border:1.5px solid #134F4A;
+  border-radius:9px 9px 5px 5px;
   transition:transform .3s var(--ease);
+}
+.sidekick .sk-necklace{
+  position:absolute;left:50%;bottom:17px;
+  width:10px;height:3px;
+  margin-left:-5px;
+  border-bottom:1.5px dotted var(--sand);
+  border-radius:0 0 50% 50%;
+  z-index:2;
 }
 .sidekick .sk-head{
   position:absolute;left:50%;bottom:26px;
   width:20px;height:18px;
   margin-left:-10px;
-  background:var(--surface);
-  border:1.5px solid var(--teal);
+  background:#8A5A3B;
+  border:1.5px solid #5C3A24;
   border-radius:7px 7px 6px 6px;
   transform-origin:bottom center;
   transition:transform .3s var(--ease);
+  overflow:visible;
+}
+/* Curly hair, built from layered circles so it silhouettes like a curly afro/coils */
+.sidekick .sk-hair{
+  position:absolute;left:50%;top:-9px;
+  width:26px;height:20px;
+  margin-left:-13px;
+  z-index:1;
+  pointer-events:none;
+}
+.sidekick .sk-hair::before,
+.sidekick .sk-hair::after{
+  content:'';
+  position:absolute;
+  border-radius:50%;
+  background:#221712;
+}
+.sidekick .sk-hair::before{
+  /* main curl mass on top */
+  top:0;left:3px;width:20px;height:14px;
+  box-shadow:
+    -5px 4px 0 -1px #221712,
+    5px 4px 0 -1px #221712,
+    -2px -3px 0 -2px #221712,
+    3px -3px 0 -2px #221712;
+}
+.sidekick .sk-hair::after{
+  /* side coils that hang past the jaw */
+  top:6px;left:-3px;width:6px;height:9px;
+  box-shadow:20px 2px 0 0 #221712;
+}
+.sidekick .sk-earring{
+  position:absolute;bottom:1px;
+  width:2.5px;height:2.5px;
+  border-radius:50%;
+  background:var(--sand);
+  box-shadow:0 0 3px rgba(232,224,208,0.8);
+  z-index:2;
+}
+.sidekick .sk-earring.l{left:-1px}
+.sidekick .sk-earring.r{right:-1px}
+.sidekick .sk-mouth{
+  position:absolute;bottom:3px;left:50%;
+  width:7px;height:3px;
+  margin-left:-3.5px;
+  border-radius:0 0 7px 7px;
+  background:#3A2416;
+  z-index:2;
 }
 .sidekick .sk-eye{
   position:absolute;top:7px;
-  width:4px;height:4px;
+  width:3.5px;height:4.5px;
   border-radius:50%;
-  background:var(--teal);
-  box-shadow:0 0 4px rgba(78,205,196,0.7);
+  background:#241611;
   transition:transform .2s var(--ease), height .2s var(--ease);
+}
+.sidekick .sk-eye::after{
+  content:'';
+  position:absolute;top:0.5px;left:0.5px;
+  width:1.2px;height:1.2px;
+  border-radius:50%;
+  background:var(--sand);
 }
 .sidekick .sk-eye.l{left:4px}
 .sidekick .sk-eye.r{right:4px}
-.sidekick .sk-antenna{
-  position:absolute;left:50%;top:-7px;
-  width:2px;height:8px;
-  margin-left:-1px;
-  background:var(--muted);
-  transform-origin:bottom center;
-}
-.sidekick .sk-antenna::after{
-  content:'';position:absolute;top:-3px;left:50%;margin-left:-2px;
-  width:4px;height:4px;border-radius:50%;background:var(--amber);
+.sidekick .sk-pin{
+  position:absolute;left:50%;top:-2px;
+  width:5px;height:5px;
+  margin-left:4px;
+  border-radius:50%;
+  background:var(--amber);
   box-shadow:0 0 5px rgba(247,197,159,0.8);
+  z-index:2;
 }
 .sidekick .sk-arm{
   position:absolute;bottom:16px;
   width:9px;height:2.5px;
   border-radius:2px;
-  background:var(--teal);
+  background:#8A5A3B;
   transform-origin:left center;
   transition:transform .25s var(--ease);
 }
@@ -165,7 +224,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;height:60px;display:flex;ali
   position:absolute;bottom:0;
   width:2.5px;height:9px;
   border-radius:2px;
-  background:var(--muted);
+  background:#2B2320;
   transform-origin:top center;
   transition:transform .2s var(--ease);
 }
@@ -441,13 +500,18 @@ footer{background:var(--deep);padding:40px var(--gap);border-top:1px solid rgba(
       <span class="terminal-text"><span id="typed-text"></span><span class="cursor"></span></span>
       <div class="sidekick pose-walk" id="sidekick" aria-hidden="true">
         <div class="sk-thought" id="sk-thought">?</div>
-        <div class="sk-antenna"></div>
+        <div class="sk-hair"></div>
+        <div class="sk-pin"></div>
         <div class="sk-head">
           <div class="sk-eye l"></div>
           <div class="sk-eye r"></div>
+          <div class="sk-earring l"></div>
+          <div class="sk-earring r"></div>
+          <div class="sk-mouth"></div>
         </div>
         <div class="sk-arm l"></div>
         <div class="sk-arm r"></div>
+        <div class="sk-necklace"></div>
         <div class="sk-body"></div>
         <div class="sk-leg l"></div>
         <div class="sk-leg r"></div>
