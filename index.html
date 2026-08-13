@@ -30,6 +30,59 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{font-size:16px;scroll-behavior:smooth}
 body{font-family:var(--body);background:var(--night);color:var(--sand);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+
+/* Subtle film-grain, sits above the background but below all content — gives the
+   flat dark palette an "artistic print" texture instead of a flat CSS fill. */
+body::before{
+  content:'';
+  position:fixed;inset:0;z-index:1;
+  pointer-events:none;
+  opacity:0.035;
+  mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Custom cursor is opt-in via JS adding .has-cursor to <html> once it confirms
+   a fine pointer is present — this keeps native cursors/tap targets intact on touch. */
+html.has-cursor, html.has-cursor a, html.has-cursor button, html.has-cursor input,
+html.has-cursor textarea, html.has-cursor select{ cursor:none; }
+
+.cursor-dot,.cursor-ring{
+  position:fixed;top:0;left:0;z-index:9999;
+  pointer-events:none;
+  border-radius:50%;
+  transform:translate(-50%,-50%);
+  will-change:transform;
+}
+.cursor-dot{
+  width:6px;height:6px;
+  background:var(--teal);
+}
+.cursor-ring{
+  width:34px;height:34px;
+  border:1px solid rgba(78,205,196,0.5);
+  display:flex;align-items:center;justify-content:center;
+  transition:width .25s var(--ease),height .25s var(--ease),border-color .25s var(--ease),background .25s var(--ease);
+}
+.cursor-ring .cursor-label{
+  font-family:var(--mono);font-size:9px;letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--night);
+  opacity:0;
+  transition:opacity .2s ease;
+  white-space:nowrap;
+}
+/* Hover state: ring grows, fills teal, and can show a contextual word (e.g. VIEW, SEND) */
+.cursor-ring.is-active{
+  width:64px;height:64px;
+  background:var(--teal);
+  border-color:var(--teal);
+}
+.cursor-ring.is-active .cursor-label{opacity:1}
+.cursor-ring.is-active ~ .cursor-dot,
+body.cursor-hovering .cursor-dot{opacity:0}
+@media(hover:none),(pointer:coarse){
+  .cursor-dot,.cursor-ring{display:none}
+}
 a{color:inherit;text-decoration:none}
 img{display:block;width:100%}
 
@@ -413,18 +466,63 @@ section{position:relative;padding:100px 0}
 .exp-link:hover{border-color:var(--teal)}
 .exp-link::after{content:'↗';font-size:12px}
 
-/* ── RESEARCH REPORTS ─────────────────────── */
-.reports-section{background:var(--night)}
-.reports-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px}
-.report-card{background:var(--surface);padding:36px;transition:background .25s;opacity:0;transform:translateY(20px);transition:opacity .6s var(--ease),transform .6s var(--ease),background .25s}
+/* ── RESEARCH REPORTS — horizontal showcase rail ─────────────── */
+.reports-section{background:var(--night);overflow:hidden}
+.reports-hint{font-family:var(--mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:8px}
+.reports-hint::before{content:'';display:block;width:26px;height:1px;background:var(--muted)}
+
+.reports-rail{
+  display:flex;
+  gap:2px;
+  overflow-x:auto;
+  padding:0 var(--gap) 8px;
+  scroll-snap-type:x proximity;
+  cursor:grab;
+  /* hide the native scrollbar; the progress line below stands in for it */
+  scrollbar-width:none;
+}
+.reports-rail::-webkit-scrollbar{display:none}
+.reports-rail.is-dragging{cursor:grabbing;scroll-snap-type:none}
+
+.report-card{
+  position:relative;
+  flex:0 0 auto;
+  width:min(78vw,420px);
+  background:var(--surface);
+  padding:40px 36px 36px;
+  scroll-snap-align:start;
+  opacity:0;transform:translateY(20px);
+  transition:opacity .6s var(--ease),transform .6s var(--ease),background .25s;
+}
 .report-card.visible{opacity:1;transform:translateY(0)}
 .report-card:hover{background:#1E2E48}
+.report-index{
+  position:absolute;top:14px;right:20px;
+  font-family:var(--display);font-size:52px;font-weight:700;
+  color:transparent;-webkit-text-stroke:1px rgba(78,205,196,0.18);
+  line-height:1;pointer-events:none;
+  user-select:none;
+}
 .report-tag{font-family:var(--mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--amber);margin-bottom:14px;display:flex;align-items:center;gap:8px}
 .report-tag::before{content:'';display:block;width:20px;height:1px;background:var(--amber)}
-.report-title{font-family:var(--display);font-size:17px;font-weight:600;color:var(--sand);line-height:1.35;margin-bottom:14px}
-.report-desc{font-size:13px;font-weight:300;line-height:1.8;color:var(--muted)}
-.report-outcome{margin-top:16px;padding-top:16px;border-top:1px solid rgba(78,205,196,0.08);font-family:var(--mono);font-size:10px;color:var(--teal);letter-spacing:0.5px;line-height:1.6}
+.report-title{font-family:var(--display);font-size:17px;font-weight:600;color:var(--sand);line-height:1.35;margin-bottom:14px;position:relative}
+.report-desc{font-size:13px;font-weight:300;line-height:1.8;color:var(--muted);position:relative}
+.report-outcome{margin-top:16px;padding-top:16px;border-top:1px solid rgba(78,205,196,0.08);font-family:var(--mono);font-size:10px;color:var(--teal);letter-spacing:0.5px;line-height:1.6;position:relative}
 .report-outcome::before{content:'OUTCOME ↳ ';color:var(--muted)}
+
+/* Progress line — fills as the rail scrolls, standing in for a visible scrollbar */
+.reports-progress-track{
+  height:2px;
+  margin:20px var(--gap) 0;
+  background:rgba(78,205,196,0.1);
+  position:relative;
+}
+.reports-progress-fill{
+  position:absolute;top:0;left:0;height:100%;
+  width:0%;
+  background:var(--teal);
+  transition:width .1s linear;
+}
 
 /* ── SKILLS CONSTELLATION ─────────────────── */
 .skills-section{background:var(--deep);overflow:hidden}
@@ -509,7 +607,7 @@ footer{background:var(--deep);padding:40px var(--gap);border-top:1px solid rgba(
 @media(max-width:900px){
   .nav-links,.nav-badge{display:none}
   .nav-toggle{display:flex}
-  .reports-grid,.edu-grid,.contact-inner{grid-template-columns:1fr}
+  .edu-grid,.contact-inner{grid-template-columns:1fr}
   .skills-grid{grid-template-columns:1fr 1fr}
   .exp-item{grid-template-columns:1fr;gap:8px}
   .data-nodes{display:none}
@@ -517,6 +615,7 @@ footer{background:var(--deep);padding:40px var(--gap);border-top:1px solid rgba(
   .hero-stats{grid-template-columns:repeat(3,auto);gap:0}
   .lead-item{gap:24px}
   .lead-period{min-width:120px}
+  .report-card{width:min(70vw,360px);padding:32px 28px 28px}
 }
 
 /* Mobile: stack the terminal + sidekick, single-column grids, roomier tap targets */
@@ -537,6 +636,8 @@ footer{background:var(--deep);padding:40px var(--gap);border-top:1px solid rgba(
   .f-row{grid-template-columns:1fr}
   footer{flex-direction:column;text-align:center;gap:20px}
   .footer-links{flex-wrap:wrap;justify-content:center}
+  .report-card{width:82vw}
+  .report-index{font-size:40px}
 }
 
 /* Small phones: reclaim edge padding, shrink display type further */
@@ -557,6 +658,10 @@ footer{background:var(--deep);padding:40px var(--gap);border-top:1px solid rgba(
 </head>
 <body>
 
+<div class="cursor-ring" id="cursor-ring"><span class="cursor-label" id="cursor-label"></span></div>
+<div class="cursor-dot" id="cursor-dot"></div>
+
+
 <!-- NAV -->
 <nav>
   <div class="nav-logo">Elaf <span>Alnayer</span></div>
@@ -567,8 +672,8 @@ footer{background:var(--deep);padding:40px var(--gap);border-top:1px solid rgba(
     <li><a href="#education">Education</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
-  <a href="mailto:alnayer.eee@gmail.com" class="nav-badge">Get in Touch with me</a>
-  <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobile-menu">
+  <a href="mailto:alnayer.eee@gmail.com" class="nav-badge magnetic" data-cursor="MAIL">Get in Touch with me</a>
+  <button class="nav-toggle magnetic" id="nav-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobile-menu">
     <span class="bars"><span></span><span></span><span></span></span>
   </button>
 </nav>
@@ -645,8 +750,8 @@ footer{background:var(--deep);padding:40px var(--gap);border-top:1px solid rgba(
       Researcher and analyst exploring the <strong>power dynamics of the digital economy</strong>. Combining rigorous informatics with a focus on how technology and data shape <strong>local communities</strong>.
     </p>
     <div class="hero-actions">
-      <a href="#research" class="btn-primary">View Research</a>
-      <a href="#contact" class="btn-ghost">Get in Touch</a>
+      <a href="#research" class="btn-primary magnetic" data-cursor="VIEW">View Research</a>
+      <a href="#contact" class="btn-ghost magnetic" data-cursor="SAY HI">Get in Touch</a>
     </div>
     <div class="hero-stats">
       <div class="stat">
@@ -783,53 +888,64 @@ footer{background:var(--deep);padding:40px var(--gap);border-top:1px solid rgba(
   <div class="wrap">
     <div class="sec-header">
       <h2 class="sec-title">Research & Working Reports</h2>
-      <span class="sec-count">06 projects</span>
+      <span class="reports-hint">Drag or scroll sideways</span>
     </div>
-    <div class="reports-grid">
+  </div>
 
-      <div class="report-card">
-        <div class="report-tag">Lead Researcher · HBs & Build Up</div>
-        <div class="report-title">Online Hate Speech in Sudan: A Systemic Design Analysis</div>
-        <div class="report-desc">Conducted a systemic design study to map the ecosystem of counter-hate speech organizations and stakeholders in Sudan, analyzing coordination barriers and funding volatility.</div>
-        <div class="report-outcome">Diagnostic blueprint with multi-layered stakeholder map</div>
-      </div>
+  <div class="reports-rail" id="reports-rail">
 
-      <div class="report-card">
-        <div class="report-tag">Research Assistant · ISTinaD</div>
-        <div class="report-title">Sustainable Financing of Communally Operated Social Service Provision (COSP)</div>
-        <div class="report-desc">Synthesized research on the evolution of mutual aid and political resistance as sustainable alternatives to traditional humanitarian models during state decay.</div>
-        <div class="report-outcome">Presented at DSA 2025 (Bath, UK) · SASE 2025 (Montreal, Canada)</div>
-      </div>
-
-      <div class="report-card">
-        <div class="report-tag">Research Assistant · ERF / RAISED Africa</div>
-        <div class="report-title">Renewable Energy Access Impact on Africa's Socio-Economic Development — Sudan Case Study</div>
-        <div class="report-desc">Supporting research on socio-economic impacts of renewable energy adoption in Sudan, examining SMEs/MSMEs, financing mechanisms, and governance frameworks with attention to vulnerable communities.</div>
-        <div class="report-outcome">Co-authoring National Case Study (Expected Jan–Apr 2027) · Regional Policy Forum (2028)</div>
-      </div>
-
-      <div class="report-card">
-        <div class="report-tag">Lead Author · ISTinaD Research Centre</div>
-        <div class="report-title">Digital Payment Technology in Sudan — Policy Paper</div>
-        <div class="report-desc">Examined Sudan's FinTech ecosystem through the Digital Public Infrastructure (DPI) framework, analyzing how conflict and the 2024 currency change accelerated FinTech adoption under dual pressure.</div>
-        <div class="report-outcome">Published policy brief · istinad.org/policy-paper-digital-payment-technology-in-sudan</div>
-      </div>
-
-      <div class="report-card">
-        <div class="report-tag">Lead Author · University of Khartoum</div>
-        <div class="report-title">Enhancement of Sorghum Forecasting Models: Optimizing XGBoost Regressors</div>
-        <div class="report-desc">Developed and optimized ML models using Python to forecast crop yields in Sudan's rain-fed agricultural sector. Conducted comparative analysis addressing data gaps from environmental variability.</div>
-        <div class="report-outcome">Published at ICECCE 2023 (UAE) · DOI: 10.1109/ICECCE61019.2023.10442132</div>
-      </div>
-
-      <div class="report-card">
-        <div class="report-tag">Data Scientist · UNICEF × World Bank × ERF</div>
-        <div class="report-title">Evolving Governance Modalities of Service Provision</div>
-        <div class="report-desc">Analyzed primary and secondary data sources to assess service provision, digital economy, and local governance systems amid the crisis in Sudan.</div>
-        <div class="report-outcome">Co-authored comprehensive report for UNICEF and the World Bank</div>
-      </div>
-
+    <div class="report-card">
+      <div class="report-index">01</div>
+      <div class="report-tag">Lead Researcher · HBs & Build Up</div>
+      <div class="report-title">Online Hate Speech in Sudan: A Systemic Design Analysis</div>
+      <div class="report-desc">Conducted a systemic design study to map the ecosystem of counter-hate speech organizations and stakeholders in Sudan, analyzing coordination barriers and funding volatility.</div>
+      <div class="report-outcome">Diagnostic blueprint with multi-layered stakeholder map</div>
     </div>
+
+    <div class="report-card">
+      <div class="report-index">02</div>
+      <div class="report-tag">Research Assistant · ISTinaD</div>
+      <div class="report-title">Sustainable Financing of Communally Operated Social Service Provision (COSP)</div>
+      <div class="report-desc">Synthesized research on the evolution of mutual aid and political resistance as sustainable alternatives to traditional humanitarian models during state decay.</div>
+      <div class="report-outcome">Presented at DSA 2025 (Bath, UK) · SASE 2025 (Montreal, Canada)</div>
+    </div>
+
+    <div class="report-card">
+      <div class="report-index">03</div>
+      <div class="report-tag">Research Assistant · ERF / RAISED Africa</div>
+      <div class="report-title">Renewable Energy Access Impact on Africa's Socio-Economic Development — Sudan Case Study</div>
+      <div class="report-desc">Supporting research on socio-economic impacts of renewable energy adoption in Sudan, examining SMEs/MSMEs, financing mechanisms, and governance frameworks with attention to vulnerable communities.</div>
+      <div class="report-outcome">Co-authoring National Case Study (Expected Jan–Apr 2027) · Regional Policy Forum (2028)</div>
+    </div>
+
+    <div class="report-card">
+      <div class="report-index">04</div>
+      <div class="report-tag">Lead Author · ISTinaD Research Centre</div>
+      <div class="report-title">Digital Payment Technology in Sudan — Policy Paper</div>
+      <div class="report-desc">Examined Sudan's FinTech ecosystem through the Digital Public Infrastructure (DPI) framework, analyzing how conflict and the 2024 currency change accelerated FinTech adoption under dual pressure.</div>
+      <div class="report-outcome">Published policy brief · istinad.org/policy-paper-digital-payment-technology-in-sudan</div>
+    </div>
+
+    <div class="report-card">
+      <div class="report-index">05</div>
+      <div class="report-tag">Lead Author · University of Khartoum</div>
+      <div class="report-title">Enhancement of Sorghum Forecasting Models: Optimizing XGBoost Regressors</div>
+      <div class="report-desc">Developed and optimized ML models using Python to forecast crop yields in Sudan's rain-fed agricultural sector. Conducted comparative analysis addressing data gaps from environmental variability.</div>
+      <div class="report-outcome">Published at ICECCE 2023 (UAE) · DOI: 10.1109/ICECCE61019.2023.10442132</div>
+    </div>
+
+    <div class="report-card">
+      <div class="report-index">06</div>
+      <div class="report-tag">Data Scientist · UNICEF × World Bank × ERF</div>
+      <div class="report-title">Evolving Governance Modalities of Service Provision</div>
+      <div class="report-desc">Analyzed primary and secondary data sources to assess service provision, digital economy, and local governance systems amid the crisis in Sudan.</div>
+      <div class="report-outcome">Co-authored comprehensive report for UNICEF and the World Bank</div>
+    </div>
+
+  </div>
+
+  <div class="reports-progress-track">
+    <div class="reports-progress-fill" id="reports-progress-fill"></div>
   </div>
 </section>
 
@@ -1021,7 +1137,7 @@ footer{background:var(--deep);padding:40px var(--gap);border-top:1px solid rgba(
           <label>Message</label>
           <textarea placeholder="Describe your project or inquiry…"></textarea>
         </div>
-        <button type="submit" class="btn-send">Send Message</button>
+        <button type="submit" class="btn-send magnetic" data-cursor="SEND">Send Message</button>
       </form>
     </div>
   </div>
@@ -1133,6 +1249,125 @@ window.addEventListener('scroll', function(){
   document.addEventListener('keydown', function(e){
     if (e.key === 'Escape') closeMenu();
   });
+})();
+
+/* ── CUSTOM CURSOR ────────────────────────── */
+(function(){
+  // Only activate for devices with an actual pointer — never fight with touch.
+  if (!window.matchMedia('(hover:hover) and (pointer:fine)').matches) return;
+  document.documentElement.classList.add('has-cursor');
+
+  const dot = document.getElementById('cursor-dot');
+  const ring = document.getElementById('cursor-ring');
+  const label = document.getElementById('cursor-label');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
+  let ringX = mouseX, ringY = mouseY;
+
+  window.addEventListener('mousemove', function(e){
+    mouseX = e.clientX; mouseY = e.clientY;
+    dot.style.transform = 'translate(' + mouseX + 'px,' + mouseY + 'px) translate(-50%,-50%)';
+  });
+
+  function raf(){
+    // Ring trails the dot with easing, giving the "follower" feel Eldon-style cursors use.
+    ringX += (mouseX - ringX) * 0.18;
+    ringY += (mouseY - ringY) * 0.18;
+    ring.style.transform = 'translate(' + ringX + 'px,' + ringY + 'px) translate(-50%,-50%)';
+    requestAnimationFrame(raf);
+  }
+  if (!reduceMotion) requestAnimationFrame(raf);
+  else {
+    window.addEventListener('mousemove', function(){
+      ring.style.transform = 'translate(' + mouseX + 'px,' + mouseY + 'px) translate(-50%,-50%)';
+    });
+  }
+
+  // Elements can opt into a contextual cursor label via data-cursor="VIEW" etc.
+  document.querySelectorAll('a, button, [data-cursor]').forEach(function(el){
+    el.addEventListener('mouseenter', function(){
+      ring.classList.add('is-active');
+      document.body.classList.add('cursor-hovering');
+      label.textContent = el.getAttribute('data-cursor') || '';
+    });
+    el.addEventListener('mouseleave', function(){
+      ring.classList.remove('is-active');
+      document.body.classList.remove('cursor-hovering');
+      label.textContent = '';
+    });
+  });
+
+  // Hide the cursor entirely when it leaves the window.
+  document.addEventListener('mouseleave', function(){
+    dot.style.opacity = '0'; ring.style.opacity = '0';
+  });
+  document.addEventListener('mouseenter', function(){
+    dot.style.opacity = '1'; ring.style.opacity = '1';
+  });
+})();
+
+/* ── MAGNETIC HOVER ───────────────────────── */
+(function(){
+  if (!window.matchMedia('(hover:hover) and (pointer:fine)').matches) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  document.querySelectorAll('.magnetic').forEach(function(el){
+    let bounds;
+    el.addEventListener('mouseenter', function(){ bounds = el.getBoundingClientRect(); });
+    el.addEventListener('mousemove', function(e){
+      if (!bounds) bounds = el.getBoundingClientRect();
+      const relX = e.clientX - bounds.left - bounds.width / 2;
+      const relY = e.clientY - bounds.top - bounds.height / 2;
+      // Pull the element a fraction of the distance toward the pointer — a light
+      // "magnetic" tug rather than a full 1:1 follow.
+      el.style.transform = 'translate(' + relX * 0.25 + 'px,' + relY * 0.35 + 'px)';
+    });
+    el.addEventListener('mouseleave', function(){
+      el.style.transform = 'translate(0,0)';
+    });
+  });
+})();
+
+/* ── HORIZONTAL REPORTS RAIL ─────────────── */
+(function(){
+  const rail = document.getElementById('reports-rail');
+  const fill = document.getElementById('reports-progress-fill');
+  if (!rail || !fill) return;
+
+  function updateProgress(){
+    const max = rail.scrollWidth - rail.clientWidth;
+    const pct = max > 0 ? (rail.scrollLeft / max) * 100 : 0;
+    fill.style.width = pct + '%';
+  }
+  rail.addEventListener('scroll', updateProgress);
+  window.addEventListener('resize', updateProgress);
+  updateProgress();
+
+  // Click-and-drag scrolling (mouse), in addition to native touch/trackpad scroll.
+  let isDown = false, startX = 0, startScroll = 0, moved = false;
+
+  rail.addEventListener('mousedown', function(e){
+    isDown = true; moved = false;
+    rail.classList.add('is-dragging');
+    startX = e.pageX;
+    startScroll = rail.scrollLeft;
+  });
+  window.addEventListener('mouseup', function(){
+    isDown = false;
+    rail.classList.remove('is-dragging');
+  });
+  window.addEventListener('mousemove', function(e){
+    if (!isDown) return;
+    e.preventDefault();
+    const dx = e.pageX - startX;
+    if (Math.abs(dx) > 4) moved = true;
+    rail.scrollLeft = startScroll - dx;
+  });
+  // Prevent the drag from being read as a link click on the card underneath.
+  rail.addEventListener('click', function(e){
+    if (moved) { e.preventDefault(); e.stopPropagation(); }
+  }, true);
 })();
 
 /* ── INTERSECTION REVEAL ─────────────────── */
