@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Project — Elaf Alnayer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --night:#0B1120; --deep:#111827; --surface:#1A2438;
+  --teal:#4ECDC4; --amber:#F7C59F; --sand:#E8E0D0; --muted:#8892A4;
+  --mono:'Space Mono',monospace; --display:'Space Grotesk',sans-serif; --body:'Inter',sans-serif;
+  --ease:cubic-bezier(0.16,1,0.3,1); --max:900px; --gap:clamp(24px,6vw,64px);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--body);background:var(--night);color:var(--sand);-webkit-font-smoothing:antialiased;line-height:1.6}
+a{color:inherit}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 var(--gap)}
+
+/* Top bar */
+.topbar{position:sticky;top:0;z-index:10;display:flex;align-items:center;justify-content:space-between;
+  padding:22px var(--gap);border-bottom:1px solid rgba(78,205,196,0.12);
+  background:rgba(11,17,32,0.9);backdrop-filter:blur(14px)}
+.back-link{font-family:var(--mono);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--muted);text-decoration:none;display:flex;align-items:center;gap:8px;transition:color .2s}
+.back-link:hover{color:var(--teal)}
+.topbar-name{font-family:var(--display);font-weight:700;font-size:14px;color:var(--sand)}
+.topbar-name span{color:var(--teal)}
+
+/* Header */
+.p-header{padding:72px 0 48px;border-bottom:1px solid rgba(78,205,196,0.1)}
+.p-tag{font-family:var(--mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--amber);
+  display:flex;align-items:center;gap:10px;margin-bottom:20px}
+.p-tag::before{content:'';display:block;width:24px;height:1px;background:var(--amber)}
+.p-title{font-family:var(--display);font-size:clamp(28px,4.5vw,44px);font-weight:700;letter-spacing:-0.8px;
+  line-height:1.15;margin-bottom:20px}
+.p-meta{display:flex;flex-wrap:wrap;gap:10px 24px;font-family:var(--mono);font-size:11px;color:var(--muted)}
+.p-meta strong{color:var(--sand);font-weight:400}
+
+/* Body sections */
+.p-section{padding:48px 0;border-bottom:1px solid rgba(78,205,196,0.08)}
+.p-section:last-of-type{border-bottom:none}
+.p-label{font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--teal);margin-bottom:20px}
+.p-body p{font-size:15px;font-weight:300;color:var(--muted);margin-bottom:16px;max-width:70ch}
+.p-body p:last-child{margin-bottom:0}
+.p-body strong{color:var(--sand);font-weight:500}
+
+/* Image gallery */
+.p-gallery{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.p-gallery figure{background:var(--surface);overflow:hidden;border:1px solid rgba(78,205,196,0.08)}
+.p-gallery img{display:block;width:100%;height:auto}
+.p-gallery figcaption{font-family:var(--mono);font-size:10px;color:var(--muted);padding:10px 14px}
+.p-gallery.full{grid-template-columns:1fr}
+@media(max-width:640px){.p-gallery{grid-template-columns:1fr}}
+
+/* Code blocks */
+.p-code{background:var(--surface);border:1px solid rgba(78,205,196,0.12);border-radius:4px;margin-bottom:20px;overflow:hidden}
+.p-code:last-child{margin-bottom:0}
+.p-code-label{font-family:var(--mono);font-size:10px;letter-spacing:1px;color:var(--muted);
+  padding:10px 16px;border-bottom:1px solid rgba(78,205,196,0.1)}
+.p-code pre{margin:0;padding:18px 20px;overflow-x:auto}
+.p-code code{font-family:var(--mono);font-size:12.5px;line-height:1.7;color:var(--sand)}
+
+/* Documents / downloads */
+.p-docs{display:flex;flex-direction:column;gap:2px}
+.p-doc{display:flex;align-items:center;justify-content:space-between;gap:16px;
+  padding:16px 20px;background:var(--surface);text-decoration:none;transition:background .2s}
+.p-doc:hover{background:#1E2E48}
+.p-doc-name{font-family:var(--display);font-size:14px;font-weight:600;color:var(--sand)}
+.p-doc-type{font-family:var(--mono);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--teal)}
+
+/* Not-found state */
+.p-empty{padding:120px var(--gap);text-align:center}
+.p-empty h1{font-family:var(--display);font-size:28px;margin-bottom:16px}
+.p-empty a{font-family:var(--mono);font-size:12px;color:var(--teal)}
+
+footer{padding:40px var(--gap);text-align:center;font-family:var(--mono);font-size:10px;color:rgba(136,146,164,0.4)}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <a href="index.html#research" class="back-link">← Back to Research</a>
+  <div class="topbar-name">Elaf <span>Alnayer</span></div>
+</div>
+
+<div id="project-root">
+  <!-- populated by JS below -->
+</div>
+
+<footer>© 2026 Elaf Alnayer</footer>
+
+<script>
+/* ── PROJECT DATA ──────────────────────────
+   Add one entry per project here. Match the "id" to the ?id= value
+   used in each report-card link on the homepage (project.html?id=01).
+   - images:   array of { src, caption }  — put files in an /assets/ folder and point src at them
+   - code:     array of { label, code }   — label is the little header above the block
+   - documents:array of { name, type, href } — type shows as a small tag (PDF, DOCX, etc.)
+------------------------------------------------------------------- */
+const PROJECTS = {
+  "01": {
+    tag: "Lead Researcher · HBs & Build Up",
+    title: "Online Hate Speech in Sudan: A Systemic Design Analysis",
+    meta: ["2025", "Systemic design", "Stakeholder mapping"],
+    body: [
+      "Conducted a systemic design study to map the ecosystem of counter-hate speech organizations and stakeholders in Sudan, analyzing coordination barriers and funding volatility.",
+      "Add more detail here about your methodology, findings, and impact — this paragraph and the ones above/below are just placeholders to replace."
+    ],
+    images: [
+      { src: "assets/projects/01/map-1.jpg", caption: "Stakeholder ecosystem map" },
+      { src: "assets/projects/01/diagram-1.jpg", caption: "Coordination barriers diagram" }
+    ],
+    code: [
+      { label: "network_analysis.py", code: "# Example placeholder — replace with your real snippet\nimport networkx as nx\n\nG = nx.Graph()\nG.add_edges_from(stakeholder_pairs)\ncentrality = nx.betweenness_centrality(G)" }
+    ],
+    documents: [
+      { name: "Full diagnostic report", type: "PDF", href: "assets/projects/01/report.pdf" }
+    ]
+  },
+  "02": {
+    tag: "Research Assistant · ISTinaD",
+    title: "Sustainable Financing of Communally Operated Social Service Provision (COSP)",
+    meta: ["2025", "DSA 2025 · Bath, UK", "SASE 2025 · Montreal, Canada"],
+    body: [
+      "Synthesized research on the evolution of mutual aid and political resistance as sustainable alternatives to traditional humanitarian models during state decay."
+    ],
+    images: [],
+    code: [],
+    documents: []
+  },
+  "03": {
+    tag: "Research Assistant · ERF / RAISED Africa",
+    title: "Renewable Energy Access Impact on Africa's Socio-Economic Development — Sudan Case Study",
+    meta: ["2026–2028", "SMEs / MSMEs", "Financing & governance"],
+    body: [
+      "Supporting research on socio-economic impacts of renewable energy adoption in Sudan, examining SMEs/MSMEs, financing mechanisms, and governance frameworks with attention to vulnerable communities."
+    ],
+    images: [],
+    code: [],
+    documents: []
+  },
+  "04": {
+    tag: "Lead Author · ISTinaD Research Centre",
+    title: "Digital Payment Technology in Sudan — Policy Paper",
+    meta: ["Published", "Digital Public Infrastructure", "FinTech policy"],
+    body: [
+      "Examined Sudan's FinTech ecosystem through the Digital Public Infrastructure (DPI) framework, analyzing how conflict and the 2024 currency change accelerated FinTech adoption under dual pressure."
+    ],
+    images: [],
+    code: [],
+    documents: [
+      { name: "Read the published policy brief", type: "Link", href: "https://istinad.org/policy-paper-digital-payment-technology-in-sudan" }
+    ]
+  },
+  "05": {
+    tag: "Lead Author · University of Khartoum",
+    title: "Enhancement of Sorghum Forecasting Models: Optimizing XGBoost Regressors",
+    meta: ["ICECCE 2023 · UAE", "DOI: 10.1109/ICECCE61019.2023.10442132"],
+    body: [
+      "Developed and optimized ML models using Python to forecast crop yields in Sudan's rain-fed agricultural sector. Conducted comparative analysis addressing data gaps from environmental variability."
+    ],
+    images: [
+      { src: "assets/projects/05/chart-1.jpg", caption: "Model accuracy comparison" }
+    ],
+    code: [
+      { label: "train_model.py", code: "# Example placeholder — replace with your real snippet\nfrom xgboost import XGBRegressor\n\nmodel = XGBRegressor(n_estimators=400, max_depth=6)\nmodel.fit(X_train, y_train)" }
+    ],
+    documents: [
+      { name: "Conference paper", type: "PDF", href: "assets/projects/05/paper.pdf" }
+    ]
+  },
+  "06": {
+    tag: "Data Scientist · UNICEF × World Bank × ERF",
+    title: "Evolving Governance Modalities of Service Provision",
+    meta: ["Co-authored report", "UNICEF & World Bank"],
+    body: [
+      "Analyzed primary and secondary data sources to assess service provision, digital economy, and local governance systems amid the crisis in Sudan."
+    ],
+    images: [],
+    code: [],
+    documents: []
+  }
+};
+
+(function(){
+  const id = new URLSearchParams(window.location.search).get('id');
+  const root = document.getElementById('project-root');
+  const project = id && PROJECTS[id];
+
+  if (!project) {
+    root.innerHTML =
+      '<div class="p-empty"><h1>Project not found</h1><a href="index.html#research">← Back to Research</a></div>';
+    return;
+  }
+
+  document.title = project.title + ' — Elaf Alnayer';
+
+  let html = '';
+
+  html += '<header class="p-header wrap">';
+  html += '<div class="p-tag">' + project.tag + '</div>';
+  html += '<h1 class="p-title">' + project.title + '</h1>';
+  html += '<div class="p-meta">' + project.meta.map(m => '<span>' + m + '</span>').join('') + '</div>';
+  html += '</header>';
+
+  if (project.body && project.body.length) {
+    html += '<section class="p-section wrap"><div class="p-label">Overview</div><div class="p-body">';
+    html += project.body.map(p => '<p>' + p + '</p>').join('');
+    html += '</div></section>';
+  }
+
+  if (project.images && project.images.length) {
+    html += '<section class="p-section wrap"><div class="p-label">Gallery</div>';
+    html += '<div class="p-gallery">';
+    html += project.images.map(img =>
+      '<figure><img src="' + img.src + '" alt="' + (img.caption || '') + '" loading="lazy">' +
+      (img.caption ? '<figcaption>' + img.caption + '</figcaption>' : '') + '</figure>'
+    ).join('');
+    html += '</div></section>';
+  }
+
+  if (project.code && project.code.length) {
+    html += '<section class="p-section wrap"><div class="p-label">Code</div>';
+    html += project.code.map(c =>
+      '<div class="p-code"><div class="p-code-label">' + c.label + '</div><pre><code>' +
+      c.code.replace(/</g,'&lt;') + '</code></pre></div>'
+    ).join('');
+    html += '</section>';
+  }
+
+  if (project.documents && project.documents.length) {
+    html += '<section class="p-section wrap"><div class="p-label">Documents</div>';
+    html += '<div class="p-docs">';
+    html += project.documents.map(d =>
+      '<a class="p-doc" href="' + d.href + '" target="_blank" rel="noopener">' +
+      '<span class="p-doc-name">' + d.name + '</span>' +
+      '<span class="p-doc-type">' + d.type + '</span></a>'
+    ).join('');
+    html += '</div></section>';
+  }
+
+  root.innerHTML = html;
+})();
+</script>
+</body>
+</html>
